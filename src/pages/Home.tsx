@@ -127,8 +127,8 @@ export default function Home(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-[#030014] mx-auto w-[90vw] px-4 pt-10 text-white relative">
-      <div className="flex items-center mb-6 cursor-pointer" onClick={() => router("/Profile")}>
-        <div className="flex items-center min-w-[70%] mx-auto">
+      <div className="flex items-center mb-6 " >
+        <div className="flex items-center min-w-[70%] mx-auto cursor-pointer" onClick={() => router("/Profile")}>
           <img
             src={selected === 1 ? images.AvatarBoy : images.AvatarGirl}
             alt="Avatar"
