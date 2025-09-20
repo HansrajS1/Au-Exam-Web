@@ -126,7 +126,7 @@ export default function Home(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-[#030014] mx-auto w-[90vw] px-4 pt-10 text-white relative">
+    <div className="min-h-screen bg-[#030014] mx-auto w-full px-4 pt-10 text-white relative">
       <div className="flex items-center mb-6 " >
         <div className="flex items-center min-w-[70%] mx-auto cursor-pointer" onClick={() => router("/Profile")}>
           <img
