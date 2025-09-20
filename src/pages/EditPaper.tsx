@@ -11,7 +11,7 @@ export default function EditPaper() {
   const [paper, setPaper] = useState<any>(null);
   const [file, setFile] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<File | null>(null);
-  const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
+  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
   useEffect(() => {
     const fetchPaper = async () => {

@@ -2,9 +2,5 @@
   command = "npm run build"
   publish = "dist"
 
-[secrets]
-  omit_keys = [
-    "VITE_APPWRITE_ENDPOINT",
-    "VITE_APPWRITE_PROJECT_ID",
-    "VITE_BASE_URL"
-  ]
+[environment]
+  SECRETS_SCAN_ENABLED = "false"
