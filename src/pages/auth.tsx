@@ -86,21 +86,21 @@ export default function Auth() {
         <button
           onClick={handleAuth}
           disabled={!email || !password}
-          className="w-full bg-green-600 py-3 rounded-md mb-4 text-white font-semibold"
+          className="w-full bg-green-600 cursor-pointer py-3 rounded-md mb-4 text-white font-semibold"
         >
           {isSignIn ? "Sign Up" : "Sign In"}
         </button>
 
         <button
           onClick={handleSwitch}
-          className="w-full border border-blue-400 text-blue-400 text-xl rounded-md py-2 font-medium mb-4"
+          className="w-full border cursor-pointer border-blue-400 text-blue-400 text-xl rounded-md py-2 font-medium mb-4"
         >
           {isSignIn
             ? "Already have an account? Sign In"
             : "Don't have an account? Sign Up"}
         </button>
 
-        <button onClick={openEmail} className="w-full text-gray-400 text-sm text-center">
+        <button onClick={openEmail} className="w-full cursor-pointer text-gray-400 text-sm text-center">
           Forgot Password? Contact Support
         </button>
       </div>
