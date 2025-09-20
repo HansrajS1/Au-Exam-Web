@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function AddPaper() {
   const { userVerified, userEmail } = useAuth();
   const router = useNavigate();
-  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
+  const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
   const [college, setCollege] = useState("Alliance University");
   const [course, setCourse] = useState("");
