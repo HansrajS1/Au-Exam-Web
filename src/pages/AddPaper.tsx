@@ -27,7 +27,14 @@ export default function AddPaper() {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    if (!course || !semester || !subject || !file || !previewImage || !userEmail) {
+    if (
+      !course ||
+      !semester ||
+      !subject ||
+      !file ||
+      !previewImage ||
+      !userEmail
+    ) {
       alert("Please fill out all fields and upload both files.");
       setIsSubmitting(false);
       return;
@@ -48,9 +55,13 @@ export default function AddPaper() {
     formData.append("preview", previewImage);
 
     try {
-      const response = await axios.post(`${BASE_URL}/api/papers/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/papers/upload`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       console.log("Upload response:", response.data);
       alert("Paper uploaded successfully!");
       router("/");
@@ -85,73 +96,78 @@ export default function AddPaper() {
   }
 
   return (
-    <div className="min-h-screen flex bg-[#030014] justify-center px-4 py-6 text-white">
-      <div className="w-full max-w-xl  flex flex-col mx-auto">
-        <h1 className="text-xl mb-4 text-center">Add Paper</h1>
-        <input
-          type="text"
-          placeholder="College"
-          value={college}
-          onChange={(e) => setCollege(e.target.value)}
-          className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
-        />
-        <input
-          type="text"
-          placeholder="Course"
-          value={course}
-          onChange={(e) => setCourse(e.target.value)}
-          className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
-        />
-        <input
-          type="number"
-          placeholder="Semester"
-          value={semester}
-          onChange={(e) => setSemester(e.target.value)}
-          className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
-        />
-        <input
-          type="text"
-          placeholder="Subject"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
-        />
-        <textarea
-          placeholder="Short Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
-        />
-
-        <div className="border p-2 flex justify-between flex-wrap gap-4 align-center rounded mb-4">
-          <label className="text-sm align-center m-1">Upload Paper (PDF, Word)</label>
+    <div className="bg-[#030014] min-h-screen relative">
+      <div className=" flex min-h-[80vh] justify-center items-center px-4 py-6 text-white">
+        <div className="w-full max-w-xl align-center flex flex-col mx-auto">
+          <h1 className="text-xl mb-4 text-center">Add Paper</h1>
           <input
-            type="file"
-            accept=".pdf,.doc,.docx"
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
-            className="bg-white cursor-pointer align-center text-black rounded-md px-2 py-1"
+            type="text"
+            placeholder="College"
+            value={college}
+            onChange={(e) => setCollege(e.target.value)}
+            className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
           />
-        </div>
-
-        <div className="border p-2 flex justify-between flex-wrap rounded mb-4">
-          <label className="text-sm m-1 ">Upload Preview Image</label>
           <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setPreviewImage(e.target.files?.[0] || null)}
-            className="bg-white text-black cursor-pointer rounded-md px-2 py-1"
+            type="text"
+            placeholder="Course"
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
           />
-        </div>
+          <input
+            type="number"
+            placeholder="Semester"
+            value={semester}
+            onChange={(e) => setSemester(e.target.value)}
+            className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
+          />
+          <input
+            type="text"
+            placeholder="Subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
+          />
+          <textarea
+            placeholder="Short Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
+          />
 
-        <button
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          className="bg-green-600 w-[50%] mx-auto cursor-pointer rounded-md px-4 py-2 mb-4 text-white font-semibold"
-        >
-          Submit
-        </button>
+          <div className="border p-2 flex justify-center flex-wrap justify-evenly gap-2 align-center rounded mb-4">
+            <label className="text-sm min-w-[180px] align-center m-1">
+              Upload Paper (PDF, Word)
+            </label>
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="bg-blue-500 cursor-pointer align-center text-black rounded-md px-2 py-1"
+            />
+          </div>
+
+          <div className="border p-2 flex justify-evenly flex-wrap gap-2 rounded mb-4">
+            <label className="text-sm min-w-[180px] m-1">
+              Upload Preview Image
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setPreviewImage(e.target.files?.[0] || null)}
+              className="bg-blue-500 text-black cursor-pointer rounded-md px-2 py-1"
+            />
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="bg-green-600 w-[50%] mx-auto cursor-pointer rounded-md px-4 py-2 mb-4 text-white font-semibold"
+          >
+            Submit
+          </button>
+        </div>
       </div>
-
       <p className="absolute bottom-0 left-0 right-0 text-center bg-[#030014] text-gray-400 text-xs">
         Thank you for contributing!
       </p>

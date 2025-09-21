@@ -128,7 +128,7 @@ export default function Home(): JSX.Element {
   return (
     <div className="min-h-screen bg-[#030014] mx-auto w-full px-4 pt-10 text-white relative">
       <div className="flex items-center mb-6 " >
-        <div className="flex items-center min-w-[70%] mx-auto cursor-pointer" onClick={() => router("/Profile")}>
+        <div className="flex items-center min-w-[90%] mx-auto cursor-pointer" onClick={() => router("/Profile")}>
           <img
             src={selected === 1 ? images.AvatarBoy : images.AvatarGirl}
             alt="Avatar"
@@ -138,7 +138,7 @@ export default function Home(): JSX.Element {
         </div>
       </div>
 
-      <div className="flex items-center w-[70%] mx-auto border border-gray-600 bg-[#1a1a2e] relative rounded-full mb-4">
+      <div className="flex items-center w-[90%] mx-auto border border-gray-600 bg-[#1a1a2e] relative rounded-full mb-4">
         <input
           type="text"
           placeholder="Search Subject"
