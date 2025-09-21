@@ -1,69 +1,80 @@
-# React + TypeScript + Vite
+# AU Exam Web App
+<h3>A full-stack web application for uploading and managing academic papers, built for Alliance University Students. Users can submit academic papers, preview uploads, and manage content by subject, topic, and branch.</h3>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🌐 Live : [AU Exam Web](https://auexamweb.netlify.app/)  
+Backend Link : [Spring Boot](https://github.com/HansrajS1/Au-Exam-App-backend)
 
-Currently, two official plugins are available:
+App Link : [AU Exam App](https://github.com/HansrajS1/Au-Exam-App)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+##  Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/HansrajS1/Au-Exam-Web
+cd Au-Exam-Web
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+##  Development
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Run the dev server:  
+```bash
+npm run dev
 ```
+
+App will be available at:  
+`http://localhost:5173`
+
+---
+
+##  Building for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+---
+
+##  Environment Variables
+
+Create a `.env` file in project root:
+
+```env
+VITE_APPWRITE_ENDPOINT=https://cloud.example.io/v1
+VITE_APPWRITE_PROJECT_ID=your_project_id
+VITE_BASE_URL=your_backend_api
+```
+
+---
+
+## Troubleshooting
+
+- **Appwrite auth not working**  
+  → Make sure `.env` variables are correctly prefixed with `VITE_`  
+
+- **API requests blocked (CORS issue)**  
+  → Enable CORS in Spring Boot backend config  
+
+- **Netlify build error**  
+  → Add this in Netlify build settings:  
+  ```
+  Build Command: npm run build
+  Publish Directory: dist
+  ```
+
+---
+
+## Author
+
+**HANS RAJ**  
+Bengaluru, India  
+
+---
+
+## License
+
+MIT — feel free to fork, extend, and deploy.  
