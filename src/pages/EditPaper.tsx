@@ -11,6 +11,7 @@ export default function EditPaper() {
   const [paper, setPaper] = useState<any>(null);
   const [file, setFile] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
   useEffect(() => {
@@ -37,8 +38,17 @@ export default function EditPaper() {
   };
 
   const handleUpdate = async () => {
-    if (!paper.subject || !paper.description || !paper.userEmail) {
-      window.alert("Subject, description, and user email are required.");
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    if (
+      !paper.subject ||
+      !paper.description ||
+      !paper.userEmail ||
+      !file ||
+      !previewImage
+    ) {
+      window.alert("All fields including file and preview image are required.");
+      setIsSubmitting(false);
       return;
     }
 
@@ -53,9 +63,8 @@ export default function EditPaper() {
 
     const formData = new FormData();
     formData.append("data", JSON.stringify(dto));
-
-    if (file) formData.append("file", file);
-    if (previewImage) formData.append("preview", previewImage);
+    formData.append("file", file);
+    formData.append("preview", previewImage);
 
     try {
       await axios.put(`${BASE_URL}/api/papers/${paperId}`, formData, {
@@ -72,8 +81,8 @@ export default function EditPaper() {
   if (!paper) return null;
 
   return (
-    <div className="min-h-screen bg-[#030014] flex items-center justify-center px-4 py-6 text-white">
-      <div className="w-full max-w-xl">
+    <div className="min-h-screen bg-[#030014]">
+      <div className="min-h-screen max-w-xl flex flex-col mx-auto px-4 py-6 items-center justify-center text-white">
         <h1 className="text-xl mb-4 text-center">Edit Paper</h1>
 
         <input
@@ -82,6 +91,7 @@ export default function EditPaper() {
           value={paper.subject}
           onChange={(e) => setPaper({ ...paper, subject: e.target.value })}
           className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
+          required
         />
 
         <textarea
@@ -89,27 +99,35 @@ export default function EditPaper() {
           value={paper.description}
           onChange={(e) => setPaper({ ...paper, description: e.target.value })}
           className="w-full bg-white text-black rounded-md px-4 py-2 mb-4"
+          required
         />
-
-        <label className="block text-sm mb-2">Replace Paper File (optional)</label>
-        <input
-          type="file"
-          accept=".pdf,.doc,.docx"
-          onChange={handleFilePick}
-          className="w-full mb-4"
-        />
-
-        <label className="block text-sm mb-2">Replace Preview Image (optional)</label>
+        <div className="border p-2 flex justify-evenly flex-wrap gap-2 rounded mb-4">
+          <label className="text-sm min-w-[180px] align-center m-1">Upload Paper File</label>
+          <input
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={handleFilePick}
+            required
+            className="bg-blue-500 cursor-pointer align-center text-black rounded-md px-2 py-1"
+          />
+        </div>
+        <div className="border p-2 flex justify-evenly flex-wrap gap-2 rounded mb-4">
+        <label className="text-sm min-w-[180px] m-1">Upload Preview Image</label>
         <input
           type="file"
           accept="image/*"
           onChange={handlePreviewPick}
-          className="w-full mb-4"
-        />
+          required
+          className="bg-blue-500 cursor-pointer text-black rounded-md px-2 py-1"
+          />
+          </div>
 
         <button
           onClick={handleUpdate}
-          className="bg-green-600 w-[50%] mx-auto rounded-md px-4 py-2 text-white font-semibold"
+          disabled={isSubmitting || !file || !previewImage}
+          className={`bg-green-600  w-[50%] mx-auto rounded-md px-4 py-2 text-white font-semibold ${
+            !file || !previewImage ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           Update
         </button>

@@ -64,7 +64,7 @@ export default function AddPaper() {
       );
       console.log("Upload response:", response.data);
       alert("Paper uploaded successfully!");
-      router("/");
+      router("/Home");
       setCollege("Alliance University");
       setCourse("");
       setSemester("");
@@ -148,7 +148,7 @@ export default function AddPaper() {
           </div>
 
           <div className="border p-2 flex justify-evenly flex-wrap gap-2 rounded mb-4">
-            <label className="text-sm min-w-[180px] m-1">
+            <label className="text-sm text-center min-w-[180px] m-1">
               Upload Preview Image
             </label>
             <input
