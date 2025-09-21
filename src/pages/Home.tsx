@@ -216,13 +216,13 @@ export default function Home(): JSX.Element {
                     setSelectedPaper(null);
                     router(`/edit-paper?paperId=${selectedPaper.id}`);
                   }}
-                  className="bg-yellow-600 py-2 px-4 rounded-md font-semibold"
+                  className="bg-yellow-600 py-2 cursor-pointer px-4 rounded-md font-semibold"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => confirmDelete(selectedPaper.id)}
-                  className="bg-red-600 py-2 px-4 rounded-md font-semibold"
+                  className="bg-red-600 py-2 px-4 cursor-pointer rounded-md font-semibold"
                 >
                   Delete
                 </button>
@@ -231,7 +231,7 @@ export default function Home(): JSX.Element {
 
             <button
               onClick={() => setSelectedPaper(null)}
-              className="bg-blue-600 py-2 w-full rounded-md font-semibold"
+              className="bg-blue-600 py-2 w-full cursor-pointer rounded-md font-semibold"
             >
               Close
             </button>
