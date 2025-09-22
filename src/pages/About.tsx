@@ -9,7 +9,7 @@ export default function About() {
             <img
               src={icons.logo}
               alt="Logo"
-              className="h-24 w-24 m-4 mx-auto"
+              className="h-[32%] w-[32%] m-4 mx-auto"
             />
 
             <h1 className="text-xl font-bold text-white mb-4">
@@ -41,7 +41,7 @@ export default function About() {
               more searching everywhere — just open the app, select your course,
               semester, and subject, and download the papers instantly.
             </p>
-            <button onClick={() => { window.open("https://auexamapp.netlify.app", "_blank"); }} className="mt-4 cursor-pointer mx-auto block px-4 py-2 bg-green-500 text-white rounded">
+            <button onClick={() => { window.open("https://auexamapp.netlify.app", "_blank"); }} className="mt-4 cursor-pointer mx-auto mb-4 block px-4 py-2 bg-green-500 text-white rounded">
               Android download is live!
             </button>
           </div>
