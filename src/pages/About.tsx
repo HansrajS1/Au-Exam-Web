@@ -13,13 +13,13 @@ export default function About() {
             />
 
             <h1 className="text-xl font-bold text-white mb-4">
-              About This App
+              About This Web App
             </h1>
 
             <p className="text-gray-300 mb-6 text-lg text-justify">
               Welcome to the{" "}
-              <span className="font-bold text-white">Au Exam App</span>! This
-              app is designed to help students easily access previous year’s
+              <span className="font-bold text-white">Au Exam Web</span>! This
+              web app is designed to help students easily access previous year’s
               end-semester question papers in one place.
             </p>
 
@@ -34,13 +34,16 @@ export default function About() {
             </ul>
 
             <h2 className="text-xl font-semibold mb-2 text-white">
-              Why use this app?
+              Why use this web app?
             </h2>
             <p className="text-lg text-gray-300 text-justify">
-              This app acts as your personal digital library of exam papers. No
+              This web app acts as your personal digital library of exam papers. No
               more searching everywhere — just open the app, select your course,
               semester, and subject, and download the papers instantly.
             </p>
+            <button onClick={() => { window.open("https://auexamapp.netlify.app", "_blank"); }} className="mt-4 mx-auto block px-4 py-2 bg-green-500 text-white rounded">
+              Download on Android App
+            </button>
           </div>
         </div>
       </div>
