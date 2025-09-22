@@ -17,8 +17,8 @@ function AppRoutes() {
       {!hideNavbar && <Navbar />}
       <div className={hideNavbar ? "" : "pt-15"}>
         <Routes>
-          <Route path="/" element={<Auth />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/add-paper" element={<AddPaper />} />
           <Route path="/edit-paper" element={<EditPaper />} />
           <Route path="/about" element={<About />} />
