@@ -41,7 +41,7 @@ export default function About() {
               more searching everywhere — just open the app, select your course,
               semester, and subject, and download the papers instantly.
             </p>
-            <button onClick={() => { window.open("https://auexamapp.netlify.app", "_blank"); }} className="mt-4 mx-auto block px-4 py-2 bg-green-500 text-white rounded">
+            <button onClick={() => { window.open("https://auexamapp.netlify.app", "_blank"); }} className="mt-4 cursor-pointer mx-auto block px-4 py-2 bg-green-500 text-white rounded">
               Download on Android App
             </button>
           </div>
