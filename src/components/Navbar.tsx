@@ -15,13 +15,13 @@ export default function Navbar() {
     <nav className="bg-[#0f0D23] text-white px-6 py-4 shadow-md fixed top-0 left-0 right-0 z-50">
       <div className="flex justify-between items-center">
 
-        <div onClick={() => router("/Home")} className="flex items-center cursor-pointer gap-2">
+        <div onClick={() => router("/")} className="flex items-center cursor-pointer gap-2">
           <img src={icons.logo} alt="AU Exam App"  className="w-8 h-8" />
           <span className="text-lg font-bold">AU Exam App</span>
         </div>
 
         <div className="hidden md:flex gap-6 items-center">
-          {["/Home", "/add-paper", "/about", "/Profile"].map((path, i) => (
+          {["/", "/add-paper", "/about", "/Profile"].map((path, i) => (
             <NavLink
               key={path}
               to={path}
@@ -54,7 +54,7 @@ export default function Navbar() {
       </div>
       {isOpen && (
         <div className="md:hidden mt-4 flex flex-col gap-4">
-          {["/Home", "/add-paper", "/about", "/Profile"].map((path, i) => (
+          {["/", "/add-paper", "/about", "/Profile"].map((path, i) => (
             <NavLink
               key={path}
               to={path}

@@ -11,12 +11,12 @@ export default function RouterGuard({ children }: { children: React.ReactNode })
     if (isLoading) return;
 
     const path = location.pathname;
-    const isAuthPage = path === "/";
+    const isAuthPage = path === "/auth";
 
     if (!user && !isAuthPage) {
-      navigate("/", { replace: true });
+      navigate("/auth", { replace: true });
     } else if (user && isAuthPage) {
-      navigate("/Home", { replace: true });
+      navigate("/", { replace: true });
     }
   }, [user, isLoading, location.pathname]);
 

@@ -10,7 +10,7 @@ import RouterGuard from "./RouterGuard";
 
 function AppRoutes() {
   const location = useLocation();
-  const hideNavbar = location.pathname === "/";
+  const hideNavbar = location.pathname === "/auth";
 
   return (
     <>
