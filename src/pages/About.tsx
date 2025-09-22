@@ -42,7 +42,7 @@ export default function About() {
               semester, and subject, and download the papers instantly.
             </p>
             <button onClick={() => { window.open("https://auexamapp.netlify.app", "_blank"); }} className="mt-4 cursor-pointer mx-auto block px-4 py-2 bg-green-500 text-white rounded">
-              Download on Android App
+              Android download is live!
             </button>
           </div>
         </div>

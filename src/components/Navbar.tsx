@@ -21,7 +21,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex gap-6 items-center">
-          {["/", "/add-paper", "/about", "/Profile"].map((path, i) => (
+          {["/", "/add-paper", "/about", "/profile"].map((path, i) => (
             <NavLink
               key={path}
               to={path}
@@ -54,7 +54,7 @@ export default function Navbar() {
       </div>
       {isOpen && (
         <div className="md:hidden mt-4 flex flex-col gap-4">
-          {["/", "/add-paper", "/about", "/Profile"].map((path, i) => (
+          {["/", "/add-paper", "/about", "/profile"].map((path, i) => (
             <NavLink
               key={path}
               to={path}
