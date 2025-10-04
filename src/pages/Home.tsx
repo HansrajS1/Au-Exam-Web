@@ -149,11 +149,14 @@ export default function Home(): JSX.Element {
         <img src={icons.search} alt="Search" className="w-5 absolute h-5 right-0 mr-4" />
       </div>
 
-      {loading && (
-        <div className="flex justify-center items-center h-6">
+
+      <div className="flex justify-center items-center h-6 mb-4">
+        {loading ? (
           <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-gray-400"></div>
-        </div>
-      )}
+        ) : (
+          <div className="h-4 w-4"></div>
+        )}
+      </div>
 
       <div className="flex flex-wrap align-center justify-center p-4 rounded-xl gap-4 mb-20">
         {papers.length > 0 ? (

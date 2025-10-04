@@ -21,7 +21,7 @@ export default function BottomNav() {
           <NavLink key={path} to={path} className="flex w-full items-center justify-center">
             {isActive ? (
               <div
-                className="flex items-center justify-center rounded-full min-w-[120px] min-h-[64px] overflow-hidden"
+                className="flex items-center justify-center rounded-full min-w-[120px] min-h-[50px] overflow-hidden"
                 style={{
                   backgroundImage: `url(${images.highlight})`,
                   backgroundSize: "cover",

@@ -3,53 +3,136 @@ import { icons } from "../constants/icons";
 export default function About() {
   return (
     <>
-      <div className="min-h-screen bg-[#030014] w-full">
-        <div className="flex-grow min-h-[80vh] flex items-center justify-center">
-          <div className="w-[90%] max-w-xl mx-auto">
-            <img
-              src={icons.logo}
-              alt="Logo"
-              className="h-[32%] w-[32%] m-4 mx-auto"
-            />
+      <div className="min-h-screen bg-gradient-to-b from-[#030014] to-[#0a0a23] text-white px-4 py-10">
+        <div className="max-w-3xl mx-auto text-center">
+          <img
+            src={icons.logo}
+            alt="Logo"
+            className="h-30 w-30 mx-auto mb-6 animate-pulse"
+          />
 
-            <h1 className="text-xl font-bold text-white mb-4">
-              About This Web App
-            </h1>
+          <h1 className="text-3xl font-extrabold mb-4 tracking-tight">
+            About <span className="text-green-400">AU Exam Web</span>
+          </h1>
 
-            <p className="text-gray-300 mb-6 text-lg text-justify">
-              Welcome to the{" "}
-              <span className="font-bold text-white">Au Exam Web</span>! This
-              web app is designed to help students easily access previous year’s
-              end-semester question papers in one place.
-            </p>
+          <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+            Welcome to <span className="font-bold text-white">AU Exam Web</span>{" "}
+            — your personal digital library for previous year’s end-semester
+            question papers. Designed for students, by students.
+          </p>
 
-            <h2 className="text-xl font-semibold text-white mb-2">Features:</h2>
-            <ul className="text-gray-300 mb-8 space-y-1 list-disc list-inside">
-              <li>Create an account and Sign In.</li>
-              <li>Browse sample papers easily.</li>
-              <li>Access all semesters paper.</li>
-              <li>View subjects and their details.</li>
-              <li>Add question papers in PDF format.</li>
-              <li>Download question papers in PDF format.</li>
+          <div className="bg-[#1a1a2e] rounded-xl p-6 mb-8 shadow-md">
+            <h2 className="text-2xl font-semibold mb-4"> Features</h2>
+            <ul className="text-gray-300 space-y-2 list-disc list-inside text-left">
+              <li>Create an account and sign in securely.</li>
+              <li>Browse and search sample papers easily.</li>
+              <li>Access papers from all semesters.</li>
+              <li>View subject details and metadata.</li>
+              <li>Upload question papers in PDF format.</li>
+              <li>Download papers instantly in PDF format.</li>
             </ul>
+          </div>
 
-            <h2 className="text-xl font-semibold mb-2 text-white">
-              Why use this web app?
-            </h2>
-            <p className="text-lg text-gray-300 text-justify">
-              This web app acts as your personal digital library of exam papers. No
-              more searching everywhere — just open the app, select your course,
-              semester, and subject, and download the papers instantly.
+          <div className="bg-[#1a1a2e] rounded-xl p-6 mb-8 shadow-md">
+            <h2 className="text-2xl font-semibold mb-4"> Why Use This App?</h2>
+            <p className="text-gray-300 text-lg leading-relaxed">
+              No more endless searching. Just open the app, select your course,
+              semester, and subject and download the papers instantly. It’s
+              fast, reliable, and built for your academic success.
             </p>
-            <button onClick={() => { window.open("https://auexamapp.netlify.app", "_blank"); }} className="mt-4 cursor-pointer mx-auto mb-4 block px-4 py-2 bg-green-500 text-white rounded">
-              Android download is live!
-            </button>
+          </div>
+
+
+          <div className="bg-[#1a1a2e] rounded-xl p-6 mb-8 shadow-md">
+            <h2 className="text-2xl font-semibold mb-4">
+              📦 Project Repositories
+            </h2>
+            <ul className="text-gray-300 space-y-2 list-disc list-inside text-left">
+              <li>
+                <a
+                  href="https://github.com/hansrajS1/au-exam-web"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline"
+                >
+                  Au-Exam-Web
+                </a>
+                  –  Frontend React app for browsing and downloading papers
+              </li>
+              <li>
+                <a
+                  href="https://github.com/hansrajS1/au-exam-backend"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline"
+                >
+                  Au-Exam-Backend
+                </a>
+                – Backend Express API for paper management
+              </li>
+              <li>
+                <a
+                  href="https://github.com/hansrajS1/au-exam-app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline"
+                >
+                  Au-Exam-App
+                </a>
+                – Android app built with React Native for mobile access
+              </li>
+            </ul>
+            <p className="text-sm text-gray-400 mt-4">Come contribute and make it better!</p>
+          </div>
+
+          <button
+            onClick={() =>
+              window.open("https://auexamapp.netlify.app", "_blank")
+            }
+            className="bg-green-500 hover:bg-green-600 cursor-pointer transition-colors px-6 py-2 rounded-full text-white font-semibold mb-6"
+          >
+            Android Download is Live!
+          </button>
+
+          <p className="text-gray-300 text-lg mb-4">
+            Questions or feedback? Reach out at{" "}
+            <a
+              href="mailto:hansrajvvs@gmail.com"
+              className="text-blue-400 underline"
+            >
+              hansrajvvs@gmail.com
+            </a>
+          </p>
+          <div className="text-sm text-gray-500 space-y-1 mb-6">
+            <p>
+              Made by{" "}
+              <a
+                href="https://github.com/hansrajS1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 underline"
+              >
+                Hans Raj
+              </a>
+            </p>
+            <p>
+              Open source on{" "}
+              <a
+                href="https://github.com/hansrajS1/au-exam-web"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 underline"
+              >
+                GitHub
+              </a>
+            </p>
           </div>
         </div>
       </div>
-      <p className="text-center relative bottom-0 bg-[#030014] left-0 right-0 text-gray-400 text-xs">
+
+      <footer className="text-center bg-[#030014] relative bottom-0 left-0 right-0 text-gray-400 text-xs">
         Made for students, free forever
-      </p>
+      </footer>
     </>
   );
 }
