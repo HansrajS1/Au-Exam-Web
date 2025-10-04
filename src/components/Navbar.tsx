@@ -12,7 +12,7 @@ export default function Navbar() {
     <nav className="bg-[#0f0D23] text-white px-4 py-3 shadow-md fixed top-0 left-0 right-0 z-50">
       <div className="flex justify-between items-center">
         <div onClick={() => navigate("/")} className="flex items-center cursor-pointer gap-2">
-          <img src={icons.logo} alt="AU Exam App" className="w-15 h-12" />
+          <img src={icons.logo} alt="AU Exam App" className="w-12 h-12" />
           <span className="text-lg font-bold">AU Exam App</span>
         </div>
 
