@@ -97,7 +97,7 @@ export default function AddPaper() {
 
   return (
     <div className="bg-[#030014] min-h-screen relative">
-      <div className=" flex min-h-[80vh] justify-center items-center px-4 py-6 text-white">
+      <div className=" flex min-h-screen justify-center items-center px-4 py-6 text-white">
         <div className="w-full max-w-xl align-center flex flex-col mx-auto">
           <h1 className="text-xl mb-4 text-center">Add Paper</h1>
           <input

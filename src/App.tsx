@@ -6,16 +6,19 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Auth from "./pages/auth";
 import Navbar from "./components/Navbar";
+import BottomNav from "./components/BottomNav";
 import RouterGuard from "./RouterGuard";
+import { useIsMobile } from "./hook/useIsMobile";
 
 function AppRoutes() {
   const location = useLocation();
-  const hideNavbar = location.pathname === "/auth";
+  const isAuthPage = location.pathname === "/auth";
+  const isMobile = useIsMobile();
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
-      <div className={hideNavbar ? "" : "pt-15"}>
+      {!isAuthPage && <Navbar />}
+      <div className={!isAuthPage && !isMobile ? "pt-16" : ""}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
@@ -25,6 +28,8 @@ function AppRoutes() {
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
+
+      {!isAuthPage && <BottomNav />}
     </>
   );
 }

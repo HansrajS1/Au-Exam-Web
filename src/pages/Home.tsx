@@ -132,7 +132,7 @@ export default function Home(): JSX.Element {
           <img
             src={selected === 1 ? images.AvatarBoy : images.AvatarGirl}
             alt="Avatar"
-            className="w-15 h-15 rounded-full"
+            className="w-10 h-10 rounded-full"
           />
           <span className="ml-2 text-base">{userNameState || "Student"}</span>
         </div>
