@@ -7,6 +7,7 @@ import {
 } from "react";
 import { ID, type Models } from "appwrite";
 import { account } from "./appwrite";
+import { useLocation } from "react-router-dom";
 
 type AuthContextType = {
   user: Models.User<Models.Preferences> | null;
@@ -35,9 +36,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userName, setUserName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const location = useLocation();
+
   useEffect(() => {
+    const publicRoutes = ["/auth", "/verify-email", "/reset-password"];
+    if (publicRoutes.includes(location.pathname)) {
+      setIsLoading(false);
+      return;
+    }
     fetchUser();
-  }, [setUser]);
+  }, [location.pathname]);
 
   const fetchUser = async () => {
     try {

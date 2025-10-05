@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./lib/authcontext";
 
+const publicRoutes = ["/auth", "/verify-email", "/reset-password"];
+
 export default function RouterGuard({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
   const location = useLocation();
@@ -11,11 +13,11 @@ export default function RouterGuard({ children }: { children: React.ReactNode })
     if (isLoading) return;
 
     const path = location.pathname;
-    const isAuthPage = path === "/auth";
+    const isPublic = publicRoutes.includes(path);
 
-    if (!user && !isAuthPage) {
+    if (!user && !isPublic) {
       navigate("/auth", { replace: true });
-    } else if (user && isAuthPage) {
+    } else if (user && path === "/auth") {
       navigate("/", { replace: true });
     }
   }, [user, isLoading, location.pathname]);

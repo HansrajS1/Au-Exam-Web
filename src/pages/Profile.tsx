@@ -11,6 +11,7 @@ export default function Profile() {
     : "Guest";
   const userEmailDisplay = userEmail || "Guest@example.com";
   const [selected, setSelected] = useState<number | null>(null);
+  const [verifymsg, setVerifyMsg] = useState<string | null>(null);
 
   useEffect(() => {
     const savedAvatar = localStorage.getItem("avatar");
@@ -30,12 +31,12 @@ export default function Profile() {
 
   const verifyAccount = async () => {
     try {
-      alert("Check your email for the verification link!");
-      await account.createVerification("https://auexamverifyemail.netlify.app");
+      setVerifyMsg("Check your email for the verification link!");
+      await account.createVerification("https://auexamweb.netlify.app/verify-email");
       pollVerification();
     } catch (error) {
       console.error("Error verifying account:", error);
-      alert("Error verifying account");
+      setVerifyMsg("Error verifying account");
     }
   };
 
@@ -44,6 +45,8 @@ export default function Profile() {
       { duration: 10000, interval: 2000 },
       { duration: 10000, interval: 3000 },
       { duration: 10000, interval: 5000 },
+      { duration: 10000, interval: 7000 },
+      { duration: 10000, interval: 8000 },
     ];
 
     let verified = false;
@@ -54,7 +57,8 @@ export default function Profile() {
         try {
           const user = await account.get();
           if (user.emailVerification) {
-            alert("Your account is now verified!");
+            setVerifyMsg(null);
+            setVerifyMsg("Your account is now verified!");
             setUserVerified(true);
             verified = true;
             return;
@@ -67,7 +71,7 @@ export default function Profile() {
     }
 
     if (!verified) {
-      alert("Verification not detected. Please refresh or try again.");
+      setVerifyMsg  ("Verification not detected. Please refresh or try again.");
     }
   };
 
@@ -132,6 +136,8 @@ export default function Profile() {
             </button>
           )}
         </div>
+
+        {verifymsg && <p className="mb-4 text-yellow-400">{verifymsg}</p>}
 
         <button
           onClick={signOut}

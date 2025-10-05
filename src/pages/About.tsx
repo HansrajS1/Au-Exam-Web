@@ -3,7 +3,7 @@ import { icons } from "../constants/icons";
 export default function About() {
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-[#030014] to-[#0a0a23] text-white px-4 py-10">
+      <div className="min-h-screen bg-gradient-to-b from-[#030014] to-[#0a0a23] text-white px-4 py-1">
         <div className="max-w-3xl mx-auto text-center">
           <img
             src={icons.logo}
@@ -42,10 +42,9 @@ export default function About() {
             </p>
           </div>
 
-
           <div className="bg-[#1a1a2e] rounded-xl p-6 mb-8 shadow-md">
             <h2 className="text-2xl font-semibold mb-4">
-              📦 Project Repositories
+              Project Repositories
             </h2>
             <ul className="text-gray-300 space-y-2 list-disc list-inside text-left">
               <li>
@@ -53,21 +52,21 @@ export default function About() {
                   href="https://github.com/hansrajS1/au-exam-web"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 underline"
+                  className="text-blue-400 "
                 >
                   Au-Exam-Web
-                </a>
-                  –  Frontend React app for browsing and downloading papers
+                </a>{" "}
+                – Frontend React app for browsing and downloading papers
               </li>
               <li>
                 <a
                   href="https://github.com/hansrajS1/au-exam-backend"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 underline"
+                  className="text-blue-400"
                 >
                   Au-Exam-Backend
-                </a>
+                </a>{" "}
                 – Backend Express API for paper management
               </li>
               <li>
@@ -75,14 +74,64 @@ export default function About() {
                   href="https://github.com/hansrajS1/au-exam-app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 underline"
+                  className="text-blue-400"
                 >
                   Au-Exam-App
-                </a>
+                </a>{" "}
                 – Android app built with React Native for mobile access
               </li>
             </ul>
-            <p className="text-sm text-gray-400 mt-4">Come contribute and make it better!</p>
+            <p className="text-sm text-gray-400 mt-4">
+              Come contribute and make it better!
+            </p>
+          </div>
+
+          <div className="bg-[#1a1a2e] rounded-xl p-6 mb-8 shadow-md">
+            <h2 className="text-2xl font-semibold mb-4">Contributors</h2>
+            <ul className="text-gray-300 space-y-2 list-disc list-inside text-left">
+              <li>
+                <a
+                  href="https://github.com/hansrajS1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400"
+                >
+                  Hans Raj
+                </a>{" "}
+                - BTech CSE Final Year Student at Alliance University, Bangalore.
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Deepakkr004"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400"
+                >
+                  Deepak Kumar
+                </a>{" "}
+                - BTech CSE Final Year Student at Alliance University, Bangalore.
+              </li>
+              <li>
+                <a
+                  href="https://github.com/0Naveen2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400"
+                >
+                  Naveen Kumar
+                </a>{" "}
+                - BTech CSE Final Year Student at Alliance University, Bangalore.
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-[#1a1a2e] rounded-xl p-6 mb-8 shadow-md">
+            <h2 className="text-2xl font-semibold mb-4"> Get Involved</h2>
+            <p className="text-gray-300 text-lg leading-relaxed">
+              We welcome contributions from everyone! Whether it's reporting
+              bugs, suggesting features, or submitting code, your input is
+              valuable.
+            </p>
           </div>
 
           <button
@@ -98,19 +147,19 @@ export default function About() {
             Questions or feedback? Reach out at{" "}
             <a
               href="mailto:hansrajvvs@gmail.com"
-              className="text-blue-400 underline"
+              className="text-blue-400"
             >
-              hansrajvvs@gmail.com
+              auexamapp@gmail.com 
             </a>
           </p>
-          <div className="text-sm text-gray-500 space-y-1 mb-6">
+          <div className="text-sm text-gray-500 space-y-1 ">
             <p>
               Made by{" "}
               <a
                 href="https://github.com/hansrajS1"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-400 underline"
+                className="text-blue-400 "
               >
                 Hans Raj
               </a>
@@ -130,7 +179,7 @@ export default function About() {
         </div>
       </div>
 
-      <footer className="text-center bg-[#030014] relative bottom-0 left-0 right-0 text-gray-400 text-xs">
+      <footer className="text-center bg-[#090821] relative bottom-0 left-0 right-0 text-gray-400 text-xs">
         Made for students, free forever
       </footer>
     </>
