@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { account } from "../lib/appwrite";
+import { icons } from "../constants/icons";
+
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -68,7 +70,7 @@ export default function ResetPassword() {
 
   return (
     <div className="min-h-screen bg-[#030014] text-white flex flex-col items-center justify-center p-6 font-sans">
-      <img src="/AppIcon.png" alt="Logo" className="w-24 h-24 mb-6" />
+      <img src={icons.logo} alt="Logo" className="w-24 h-24 mb-6" />
       <div className="max-w-md w-full bg-[#1a1a2e] p-6 rounded-xl text-center shadow-md">
         <h2
           className={`text-lg mb-4 ${

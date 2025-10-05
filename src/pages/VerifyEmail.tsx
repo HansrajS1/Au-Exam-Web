@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { account } from "../lib/appwrite";
+import { icons } from "../constants/icons";
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
@@ -39,6 +40,7 @@ export default function VerifyEmail() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#030014] text-white font-sans">
+      <img src={icons.logo} alt="Logo" className="w-24 h-24 mb-6" />
       <div className="max-w-md w-full text-center p-8 rounded-xl bg-[#0a0a1a] shadow-lg shadow-orange-500/30">
         <div
           className={`text-xl mb-4 message ${
