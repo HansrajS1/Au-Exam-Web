@@ -22,7 +22,7 @@ function AppRoutes() {
   return (
     <>
       {!isAuthPage && !isResetPasswordPage && !isVerifyEmailPage && <Navbar />}
-      <div className={!isAuthPage  && !isMobile && isResetPasswordPage && isVerifyEmailPage ? "pt-16" : ""}>
+      <div className={!isAuthPage && !isMobile && !isResetPasswordPage && !isVerifyEmailPage ? "pt-16" : ""}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
