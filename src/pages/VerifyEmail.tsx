@@ -24,7 +24,7 @@ export default function VerifyEmail() {
         setStatus("success");
         setMessage(" Email verified successfully!");
         setTimeout(() => {
-          window.location.href = "https://auexamweb.netlify.app/auth";
+          window.location.href = "https://auexamweb.netlify.app/";
         }, 1000);
       } catch (err) {
         console.error("Verification error:", err);
