@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://auexamweb.netlify.app/</loc>
-    <lastmod>2025-10-05</lastmod>
+    <loc>http://auexamapp.tech/</loc>
+    <lastmod>2025-10-07</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://auexamweb.netlify.app/about</loc>
-    <lastmod>2025-10-05</lastmod>
+    <loc>http://auexamapp.tech/about</loc>
+    <lastmod>2025-10-07</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://auexamweb.netlify.app/auth</loc>
-    <lastmod>2025-10-05</lastmod>
+    <loc>http://auexamapp.tech/auth</loc>
+    <lastmod>2025-10-07</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://auexamweb.netlify.app/add-paper</loc>
-    <lastmod>2025-10-05</lastmod>
+    <loc>http://auexamapp.tech/add-paper</loc>
+    <lastmod>2025-10-07</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://auexamweb.netlify.app/edit-paper</loc>
-    <lastmod>2025-10-05</lastmod>
+    <loc>http://auexamapp.tech/edit-paper</loc>
+    <lastmod>2025-10-07</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://auexamweb.netlify.app/profile</loc>
-    <lastmod>2025-10-05</lastmod>
+    <loc>http://auexamapp.tech/profile</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://auexamapp.tech/profile</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://auexamapp.tech/app-download</loc>
+    <lastmod>2025-10-07</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>
