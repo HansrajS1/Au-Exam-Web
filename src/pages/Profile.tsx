@@ -2,9 +2,11 @@ import { images } from "../constants/images";
 import { account } from "../lib/appwrite";
 import { useAuth } from "../lib/authcontext";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Profile() {
+  const router = useNavigate();
 
   const { signOut, userEmail, userName, userVerified, setUserVerified } =
     useAuth();
@@ -157,7 +159,7 @@ export default function Profile() {
         </button>
 
         <button
-          onClick={() => window.open('https://auexamapp.netlify.app', '_blank')}
+          onClick={() => router("/app-download")}
           className="bg-black px-6 border border-white cursor-pointer py-3 rounded-md"
         >
           <span className="text-white font-semibold">𖹭 Download App</span>

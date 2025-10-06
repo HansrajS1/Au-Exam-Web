@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./lib/authcontext";
 
-const publicRoutes = ["/auth", "/verify-email", "/reset-password"];
+const publicRoutes = ["/auth", "/verify-email", "/reset-password", "/app-download"];
 
 export default function RouterGuard({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();

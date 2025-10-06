@@ -11,18 +11,21 @@ import RouterGuard from "./RouterGuard";
 import { useIsMobile } from "./hook/useIsMobile";
 import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
+import AppDownload from "./pages/AppDownload";
+
 
 function AppRoutes() {
   const location = useLocation();
   const isAuthPage = location.pathname === "/auth";
   const isResetPasswordPage = location.pathname === "/reset-password";
   const isVerifyEmailPage = location.pathname === "/verify-email";
+  const isAppDownloadPage = location.pathname === "/app-download";
   const isMobile = useIsMobile();
 
   return (
     <>
-      {!isAuthPage && !isResetPasswordPage && !isVerifyEmailPage && <Navbar />}
-      <div className={!isAuthPage && !isMobile && !isResetPasswordPage && !isVerifyEmailPage ? "pt-16" : ""}>
+      {!isAuthPage && !isResetPasswordPage && !isVerifyEmailPage && !isAppDownloadPage && <Navbar />}
+      <div className={!isAuthPage && !isMobile && !isResetPasswordPage && !isVerifyEmailPage && !isAppDownloadPage ? "pt-16" : ""}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
@@ -32,6 +35,7 @@ function AppRoutes() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/app-download" element={<AppDownload />} />
         </Routes>
       </div>
 
