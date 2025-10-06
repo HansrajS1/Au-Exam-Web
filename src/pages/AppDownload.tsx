@@ -7,15 +7,16 @@ export default function AppDownload() {
     <div className="min-h-screen bg-black text-[#333] font-sans">
       <header className="flex flex-wrap-reverse items-center justify-around bg-[#2c3e50] text-white py-8 px-4 text-center">
         <div>
-          <h1 className="text-3xl font-bold m-0">AU Exam App</h1>
+          <h1 onClick={() => router("/")} className="text-3xl cursor-pointer font-bold m-0">AU Exam App</h1>
           <p className="mt-2 text-sm opacity-85">
             Submit and manage academic papers with ease
           </p>
         </div>
         <img
+          onClick={() => router("/")}
           src={icons.logo}
           alt="AU Exam App Logo"
-          className="w-[100px] mb-4 rounded-full shadow-md"
+          className="w-[100px] mb-4 rounded-full cursor-pointer shadow-md"
         />
       </header>
 
@@ -28,7 +29,7 @@ export default function AppDownload() {
             controls
             className="w-1/2 mx-auto rounded-xl"
           >
-            <source src="src/assets/Au Exam App video.mp4" type="video/mp4" />
+            <source src="/Au Exam App video.mp4" type="video/mp4" />
           </video>
         </div>
 
@@ -41,14 +42,14 @@ export default function AppDownload() {
         <div className="flex justify-center flex-wrap gap-4 mb-8">
           <a
             onClick={() => router("/")}
-            className="px-6 py-3 text-white bg-[rgb(143,44,44)] cursor-pointer rounded-lg text-base hover:scale-105 transition-transform"
+            className="px-6 py-3 text-white bg-[rgb(143,44,44)] content-center cursor-pointer rounded-lg text-base hover:scale-105 transition-transform"
           >
             Web Version
           </a>
 
           <a
             href="https://github.com/HansrajS1/Au-Exam-App/releases/download/v1.0/Au.Exam.app.apk"
-            className="px-6 py-3 text-white bg-[#6c63ff] cursor-pointer rounded-lg text-base hover:scale-105 transition-transform"
+            className="px-6 py-3 text-white bg-[#6c63ff] cursor-pointer content-center rounded-lg text-base hover:scale-105 transition-transform"
           >
             Download for Android
           </a>

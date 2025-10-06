@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./lib/authcontext";
 
-const publicRoutes = ["/auth", "/verify-email", "/reset-password", "/app-download"];
+const publicRoutes = ["/auth", "/verify-email", "/reset-password"];
 
 export default function RouterGuard({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
@@ -20,7 +20,7 @@ export default function RouterGuard({ children }: { children: React.ReactNode })
     } else if (user && path === "/auth") {
       navigate("/", { replace: true });
     }
-  }, [user, isLoading, location.pathname]);
+  }, [user, isLoading, location.pathname, navigate]);
 
   return <>{children}</>;
 }

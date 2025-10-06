@@ -1,10 +1,12 @@
 import { icons } from "../constants/icons";
+import { useNavigate } from "react-router-dom";
 
 export default function About() {
+  const router = useNavigate();
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b from-[#030014] to-[#0a0a23] text-white px-4 py-1">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center pb-16">
           <img
             src={icons.logo}
             alt="Logo"
@@ -136,7 +138,7 @@ export default function About() {
 
           <button
             onClick={() =>
-              window.open("https://auexamapp.netlify.app", "_blank")
+              router("/app-download")
             }
             className="bg-green-500 hover:bg-green-600 cursor-pointer transition-colors px-6 py-2 rounded-full text-white font-semibold mb-6"
           >

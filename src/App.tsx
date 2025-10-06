@@ -39,7 +39,7 @@ function AppRoutes() {
         </Routes>
       </div>
 
-      {!isAuthPage && <BottomNav />}
+      {!isAuthPage && !isResetPasswordPage && !isVerifyEmailPage && !isAppDownloadPage && <BottomNav />}
     </>
   );
 }
