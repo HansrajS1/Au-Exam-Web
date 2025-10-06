@@ -3,7 +3,9 @@ import { account } from "../lib/appwrite";
 import { useAuth } from "../lib/authcontext";
 import { useEffect, useState } from "react";
 
+
 export default function Profile() {
+
   const { signOut, userEmail, userName, userVerified, setUserVerified } =
     useAuth();
   const username = userName
@@ -12,6 +14,7 @@ export default function Profile() {
   const userEmailDisplay = userEmail || "Guest@example.com";
   const [selected, setSelected] = useState<number | null>(null);
   const [verifymsg, setVerifyMsg] = useState<string | null>(null);
+  const FRONTEND_URL = import.meta.env.VITE_BASE_URL_FRONTEND || "http://localhost:5173";
 
   useEffect(() => {
     const savedAvatar = localStorage.getItem("avatar");
@@ -32,7 +35,7 @@ export default function Profile() {
   const verifyAccount = async () => {
     try {
       setVerifyMsg("Check your email for the verification link!");
-      await account.createVerification("https://auexamweb.netlify.app/verify-email");
+      await account.createVerification(`${FRONTEND_URL}/verify-email`);
       pollVerification();
     } catch (error) {
       console.error("Error verifying account:", error);

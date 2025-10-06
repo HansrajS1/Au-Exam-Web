@@ -2,8 +2,10 @@ import { useAuth } from "../lib/authcontext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { icons } from "../constants/icons";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { account } from "../lib/appwrite";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+
+
 
 export default function Auth() {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -13,6 +15,7 @@ export default function Auth() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>("");
   const [resetMessage, setResetMessage] = useState<string | null>(null);
+  const FRONTEND_URL = import.meta.env.VITE_BASE_URL_FRONTEND || "http://localhost:5173";
 
   const { signIn, signUp } = useAuth();
   const router = useNavigate();
@@ -35,7 +38,7 @@ export default function Auth() {
   const handleForgotPassword = async () => {
     if (!email) return setError("Enter your email to reset password");
     try {
-      await account.createRecovery(email, "https://auexamweb.netlify.app/reset-password");
+      await account.createRecovery(email, `${FRONTEND_URL}/reset-password`);
       setResetMessage("Recovery email sent. Please check your inbox.");
       setError(null);
     } catch (err) {

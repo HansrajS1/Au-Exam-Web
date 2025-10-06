@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { account } from "../lib/appwrite";
 import { icons } from "../constants/icons";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 export default function ResetPassword() {
@@ -9,7 +12,7 @@ export default function ResetPassword() {
   const [status, setStatus] = useState<"verifying" | "success" | "error">("verifying");
   const [message, setMessage] = useState("Validating recovery link…");
   const [showForm, setShowForm] = useState(false);
-
+  const router = useNavigate();
   const userId = searchParams.get("userId");
   const secret = searchParams.get("secret");
   const expire = searchParams.get("expire");
@@ -59,7 +62,7 @@ export default function ResetPassword() {
       setStatus("success");
       setMessage("Password updated successfully! Redirecting…");
       setTimeout(() => {
-        window.location.href = "https://auexamweb.netlify.app/auth";
+        router("/auth");
       }, 2000);
     } catch (err) {
       console.error("Recovery error:", err);

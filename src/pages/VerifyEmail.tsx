@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { account } from "../lib/appwrite";
 import { icons } from "../constants/icons";
 
@@ -7,6 +8,8 @@ export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<"verifying" | "success" | "error">("verifying");
   const [message, setMessage] = useState("Verifying your email...");
+  const router = useNavigate();
+
 
   useEffect(() => {
     const userId = searchParams.get("userId");
@@ -24,7 +27,7 @@ export default function VerifyEmail() {
         setStatus("success");
         setMessage(" Email verified successfully!");
         setTimeout(() => {
-          window.location.href = "https://auexamweb.netlify.app/";
+          router("/Profile")
         }, 1000);
       } catch (err) {
         console.error("Verification error:", err);

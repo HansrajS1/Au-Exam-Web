@@ -146,7 +146,7 @@ export default function About() {
           <p className="text-gray-300 text-lg mb-4">
             Questions or feedback? Reach out at{" "}
             <a
-              href="mailto:hansrajvvs@gmail.com"
+              href="mailto:auexamapp@gmail.com"
               className="text-blue-400"
             >
               auexamapp@gmail.com 
