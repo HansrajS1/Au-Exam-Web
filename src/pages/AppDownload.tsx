@@ -7,7 +7,12 @@ export default function AppDownload() {
     <div className="min-h-screen bg-black text-[#333] font-sans">
       <header className="flex flex-wrap-reverse items-center justify-around bg-[#2c3e50] text-white py-8 px-4 text-center">
         <div>
-          <h1 onClick={() => router("/")} className="text-3xl cursor-pointer font-bold m-0">AU Exam App</h1>
+          <h1
+            onClick={() => router("/")}
+            className="text-3xl cursor-pointer font-bold m-0"
+          >
+            AU Exam App
+          </h1>
           <p className="mt-2 text-sm opacity-85">
             Submit and manage academic papers with ease
           </p>
@@ -28,8 +33,9 @@ export default function AppDownload() {
             loop
             controls
             className="w-1/2 mx-auto rounded-xl"
+            poster="/thumbnail.jpg"
           >
-            <source src="/Au Exam App video.mp4" type="video/mp4" />
+            <source src="/Au-Exam-App video.mp4" type="video/mp4" />
           </video>
         </div>
 
