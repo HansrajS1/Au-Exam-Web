@@ -35,7 +35,7 @@ export default function AppDownload() {
             className="w-1/2 mx-auto rounded-xl"
             poster="/thumbnail.jpg"
           >
-            <source src="/Au-Exam-App video.mp4" type="video/mp4" />
+            <source src="/Au-Exam-App-video.mp4" type="video/mp4" />
           </video>
         </div>
 
