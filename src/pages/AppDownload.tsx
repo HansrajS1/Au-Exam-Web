@@ -54,7 +54,7 @@ export default function AppDownload() {
           </a>
 
           <a
-            href="https://github.com/HansrajS1/Au-Exam-App/releases/download/v1.0/Au.Exam.app.apk"
+            href="https://github.com/HansrajS1/Au-Exam-App/releases/latest/download/app-release.apk"
             className="px-6 py-3 text-white bg-[#6c63ff] cursor-pointer content-center rounded-lg text-base hover:scale-105 transition-transform"
           >
             Download for Android
