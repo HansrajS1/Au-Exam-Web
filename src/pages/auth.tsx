@@ -80,6 +80,7 @@ export default function Auth() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAuth()}
             className="w-full bg-[#2a2a3e] text-white px-4 py-3 rounded-md pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
           <button
