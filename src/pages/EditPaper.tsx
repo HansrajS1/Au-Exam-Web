@@ -12,12 +12,11 @@ export default function EditPaper() {
   const [file, setFile] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
   useEffect(() => {
     const fetchPaper = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/papers/${paperId}`);
+        const response = await fetch(`/api/papers/${paperId}`);
         const data = await response.json();
         setPaper(data);
       } catch {
@@ -67,7 +66,7 @@ export default function EditPaper() {
     formData.append("preview", previewImage);
 
     try {
-      await axios.put(`${BASE_URL}/api/papers/${paperId}`, formData, {
+      await axios.put(`/api/papers/${paperId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       window.alert("Paper updated successfully!");

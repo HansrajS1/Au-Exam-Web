@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 export default function AddPaper() {
   const { userVerified, userEmail } = useAuth();
   const router = useNavigate();
-  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
   const [college, setCollege] = useState("Alliance University");
   const [course, setCourse] = useState("");
@@ -56,7 +55,7 @@ export default function AddPaper() {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/papers/upload`,
+        `/api/papers/upload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

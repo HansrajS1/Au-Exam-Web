@@ -29,7 +29,6 @@ export default function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedPaper, setSelectedPaper] = useState<PaperDetail | null>(null);
   const [userNameState, setUserNameState] = useState<string | null>(userName);
-  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
   useEffect(() => {
     setUserNameState(userName);
@@ -41,7 +40,7 @@ export default function Home(): JSX.Element {
   const fetchAllPapers = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/api/papers`);
+      const response = await fetch("/api/papers");
       const data = await response.json();
       const sorted = [...data].sort((a, b) => b.id - a.id);
       setPapers(sorted || []);
@@ -61,7 +60,7 @@ export default function Home(): JSX.Element {
 
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/api/papers/search?subject=${encodeURIComponent(text)}`);
+      const response = await fetch(`/api/papers/search?subject=${encodeURIComponent(text)}`);
       const data = await response.json();
       const sorted = [...data].sort((a, b) => b.id - a.id);
       setPapers(sorted);
@@ -80,7 +79,7 @@ export default function Home(): JSX.Element {
 
   const fetchPaperById = async (id: number) => {
     try {
-      const response = await fetch(`${BASE_URL}/api/papers/${id}`);
+      const response = await fetch(`/api/papers/${id}`);
       const data = await response.json();
       setSelectedPaper(data);
     } catch {
@@ -108,7 +107,7 @@ export default function Home(): JSX.Element {
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await fetch(`${BASE_URL}/api/papers/${id}`, {
+      const response = await fetch(`/api/papers/${id}`, {
         method: "DELETE",
       });
 
