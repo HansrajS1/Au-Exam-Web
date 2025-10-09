@@ -64,7 +64,7 @@ export default function AddPaper() {
       );
       console.log("Upload response:", response.data);
       alert("Paper uploaded successfully!");
-      router("/Home");
+      router("/");
       setCollege("Alliance University");
       setCourse("");
       setSemester("");

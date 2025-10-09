@@ -72,8 +72,8 @@ export default function EditPaper() {
       });
       window.alert("Paper updated successfully!");
       router("/");
-    } catch (error) {
-      console.error("Update error:", error);
+    } catch {
+      console.error("Update error");
       window.alert("Update failed. Please try again.");
     }
   };

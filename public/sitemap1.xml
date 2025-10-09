@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  <url>
+    <loc>https://auexamweb.netlify.app</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://auexamweb.netlify.app/about</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://auexamweb.netlify.app/auth</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://auexamweb.netlify.app/add-paper</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://auexamweb.netlify.app/edit-paper</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://auexamweb.netlify.app/profile</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://auexamweb.netlify.app/app-download</loc>
+    <lastmod>2025-10-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://auexamweb.netlify.app</loc>
+    <video:video>
+      <video:thumbnail_loc>https://auexamweb.netlify.app/thumbnail.jpg</video:thumbnail_loc>
+      <video:title>AU Exam App Overview</video:title>
+      <video:description>Walkthrough of the AU Exam App features and student workflow.</video:description>
+      <video:content_loc>https://auexamweb.netlify.app/Au-Exam-App-video.mp4</video:content_loc>
+      <video:duration>126</video:duration>
+      <video:publication_date>2025-10-07T08:00:00+00:00</video:publication_date>
+      <video:category>Education</video:category>
+      <video:tag>AU Exam App</video:tag>
+      <video:tag>student workflow</video:tag>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+
+</urlset>
