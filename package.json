@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && node scripts/generateRedirects.js && vite build",
+    "build": "tsc -b && vite build && node scripts/generateRedirects.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
