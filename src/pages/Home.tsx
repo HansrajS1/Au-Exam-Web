@@ -1,5 +1,5 @@
 import { useAuth } from "../lib/authcontext";
-import { useEffect, useState, useCallback, type JSX } from "react";
+import { useEffect, useState, useCallback, useRef, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import debounce from "lodash.debounce";
 import { icons } from "../constants/icons";
@@ -20,6 +20,8 @@ interface PaperDetail extends Paper {
   userEmail: string;
 }
 
+const PAGE_SIZE = 10;
+
 export default function Home(): JSX.Element {
   const { userName, userVerified, userEmail } = useAuth();
   const router = useNavigate();
@@ -30,6 +32,10 @@ export default function Home(): JSX.Element {
   const [selectedPaper, setSelectedPaper] = useState<PaperDetail | null>(null);
   const [userNameState, setUserNameState] = useState<string | null>(userName);
 
+  const [page, setPage] = useState(1);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+  const paginatedPapers = papers.slice(0, page * PAGE_SIZE);
+
   useEffect(() => {
     setUserNameState(userName);
     const savedAvatar = localStorage.getItem("avatar");
@@ -37,8 +43,34 @@ export default function Home(): JSX.Element {
     if (userVerified) fetchAllPapers();
   }, [userVerified, userName]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (firstEntry.isIntersecting) {
+          if (paginatedPapers.length < papers.length) {
+            setPage((prevPage) => prevPage + 1);
+          }
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    const currentLoader = loaderRef.current;
+    if (currentLoader) {
+      observer.observe(currentLoader);
+    }
+
+    return () => {
+      if (currentLoader) {
+        observer.unobserve(currentLoader);
+      }
+    };
+  }, [papers, paginatedPapers.length]);
+
   const fetchAllPapers = async () => {
     setLoading(true);
+    setPage(1);
     try {
       const response = await fetch("/api/papers");
       const data = await response.json();
@@ -59,8 +91,11 @@ export default function Home(): JSX.Element {
     }
 
     setLoading(true);
+    setPage(1);
     try {
-      const response = await fetch(`/api/papers/search?subject=${encodeURIComponent(text)}`);
+      const response = await fetch(
+        `/api/papers/search?subject=${encodeURIComponent(text)}`
+      );
       const data = await response.json();
       const sorted = [...data].sort((a, b) => b.id - a.id);
       setPapers(sorted);
@@ -71,7 +106,9 @@ export default function Home(): JSX.Element {
     }
   };
 
-  const debouncedSearch = useCallback(debounce(searchPapers, 500), [userVerified]);
+  const debouncedSearch = useCallback(debounce(searchPapers, 500), [
+    userVerified,
+  ]);
 
   useEffect(() => {
     debouncedSearch(query);
@@ -101,7 +138,9 @@ export default function Home(): JSX.Element {
 
   const confirmDelete = (id?: number) => {
     if (!id) return;
-    const confirmed = window.confirm("Are you sure you want to delete this paper?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this paper?"
+    );
     if (confirmed) handleDelete(id);
   };
 
@@ -126,8 +165,11 @@ export default function Home(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-[#030014] mx-auto w-full px-4 pt-10 text-white relative">
-      <div className="flex items-center mb-6 " >
-        <div className="flex items-center min-w-[90%] mx-auto cursor-pointer" onClick={() => router("/Profile")}>
+      <div className="flex items-center mb-6">
+        <div
+          className="flex items-center min-w-[90%] mx-auto cursor-pointer"
+          onClick={() => router("/Profile")}
+        >
           <img
             src={selected === 1 ? images.AvatarBoy : images.AvatarGirl}
             alt="Avatar"
@@ -145,12 +187,15 @@ export default function Home(): JSX.Element {
           onChange={(e) => setQuery(e.target.value)}
           className="bg-[#1a1a2e] w-full text-white px-4 py-2 rounded-full placeholder-gray-400"
         />
-        <img src={icons.search} alt="Search" className="w-5 absolute h-5 right-0 mr-4" />
+        <img
+          src={icons.search}
+          alt="Search"
+          className="w-5 absolute h-5 right-0 mr-4"
+        />
       </div>
 
-
       <div className="flex justify-center items-center h-6 mb-4">
-        {loading ? (
+        {loading && papers.length === 0 ? (
           <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-gray-400"></div>
         ) : (
           <div className="h-4 w-4"></div>
@@ -158,40 +203,56 @@ export default function Home(): JSX.Element {
       </div>
 
       <div className="flex flex-wrap align-center justify-center p-4 rounded-xl gap-4 mb-20">
-        {papers.length > 0 ? (
-          papers.map((paper) => (
-            <div key={paper.id}  className="bg-[#1a1a2e] cursor-pointer flex flex-col mt-2 rounded-xl p-3 flex-wrap min-w-[30%]">
-              <button onClick={() => fetchPaperById(paper.id)} className="w-full">
-                <img
-                  src={paper.previewImageUrl}
-                  alt={paper.subject}
-                  className=" h-[55vh] w-full object-contain cursor-pointer rounded-lg mb-2"
-                />
-                <p className="text-sm font-bold text-center">{paper.subject}</p>
-              </button>
-              <div className="flex justify-center mt-2">
-              <button
-                onClick={() => downloadAndOpenDocument(paper.fileUrl)}
-                className="bg-green-600 cursor-pointer py-1.5 rounded-md p-2 mt-2 font-semibold"
+        {paginatedPapers.length > 0
+          ? paginatedPapers.map((paper) => (
+              <div
+                key={paper.id}
+                className="bg-[#1a1a2e] cursor-pointer flex flex-col mt-2 rounded-xl p-3 flex-wrap min-w-[30%]"
               >
-                Download Paper
-              </button>
+                <button
+                  onClick={() => fetchPaperById(paper.id)}
+                  className="w-full"
+                >
+                  <img
+                    src={paper.previewImageUrl}
+                    alt={paper.subject}
+                    className=" h-[55vh] w-full object-contain cursor-pointer rounded-lg mb-2"
+                    loading="lazy"
+                  />
+                  <p className="text-sm font-bold text-center">
+                    {paper.subject}
+                  </p>
+                </button>
+                <div className="flex justify-center mt-2">
+                  <button
+                    onClick={() => downloadAndOpenDocument(paper.fileUrl)}
+                    className="bg-green-600 cursor-pointer py-1.5 rounded-md p-2 mt-2 font-semibold"
+                  >
+                    Download Paper
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          !loading &&
-          query && (
-            <p className="text-center col-span-2 mt-4">
-              No papers found starting with “{query}”
-            </p>
-          )
-        )}
+            ))
+          : !loading &&
+            query && (
+              <p className="text-center col-span-2 mt-4">
+                No papers found starting with “{query}”
+              </p>
+            )}
       </div>
+
+      {/* --- Loader for the next page --- */}
+      {paginatedPapers.length < papers.length && !loading && (
+        <div ref={loaderRef} className="flex justify-center items-center h-20">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-gray-400"></div>
+        </div>
+      )}
 
       {!userVerified && (
         <div className="text-center mt-4">
-          <p className="text-red-500">Access denied. Please verify your account.</p>
+          <p className="text-red-500">
+            Access denied. Please verify your account.
+          </p>
           <button
             onClick={() => router("/Profile")}
             className="bg-indigo-600 px-6 py-2 rounded mt-4 text-white"
@@ -205,10 +266,16 @@ export default function Home(): JSX.Element {
         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center px-6 z-50">
           <div className="bg-[#1a1a2e] p-4 rounded-lg w-full max-w-md">
             <h2 className="text-lg font-bold mb-2">{selectedPaper.subject}</h2>
-            <p className="text-gray-300 mb-1">College: {selectedPaper.college}</p>
+            <p className="text-gray-300 mb-1">
+              College: {selectedPaper.college}
+            </p>
             <p className="text-gray-300 mb-1">Course: {selectedPaper.course}</p>
-            <p className="text-gray-300 mb-1">Semester: {selectedPaper.semester}</p>
-            <p className="text-gray-300 mb-1">Uploaded by: {selectedPaper.userEmail}</p>
+            <p className="text-gray-300 mb-1">
+              Semester: {selectedPaper.semester}
+            </p>
+            <p className="text-gray-300 mb-1">
+              Uploaded by: {selectedPaper.userEmail}
+            </p>
             <p className="text-gray-300 mb-3">{selectedPaper.description}</p>
 
             {selectedPaper.userEmail === userEmail && (
