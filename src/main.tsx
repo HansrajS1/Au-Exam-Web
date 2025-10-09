@@ -10,6 +10,8 @@ if (import.meta.env.VITE_MODE === "production") {
   window.addEventListener("error", (event) => event.preventDefault());
   console.log = () => {};
   console.warn = () => {};
+  console.error = () => {};
+  console.debug = () => {};
 }
 
 
