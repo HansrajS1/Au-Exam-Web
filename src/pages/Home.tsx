@@ -258,7 +258,7 @@ export default function Home(): JSX.Element {
             <p className="text-gray-300 mb-1">Uploaded by: {selectedPaper.userEmail}</p>
             <p className="text-gray-300 mb-3">{selectedPaper.description}</p>
             {selectedPaper.userEmail === userEmail && (
-              <div className="flex justify-around mb-2">
+              <div className="flex justify-around mb-2 gap-3">
                 {isConfirmingDelete ? (
                   <>
                     <button onClick={() => handleDelete(selectedPaper.id)} className="bg-red-700 py-2 w-full mx-1 cursor-pointer rounded-md font-semibold">
@@ -270,10 +270,10 @@ export default function Home(): JSX.Element {
                   </>
                 ) : (
                   <>
-                    <button onClick={() => { setSelectedPaper(null); router(`/edit-paper?paperId=${selectedPaper.id}`); }} className="bg-yellow-600 py-2 px-4 rounded-md font-semibold">
+                    <button onClick={() => { setSelectedPaper(null); router(`/edit-paper?paperId=${selectedPaper.id}`); }} className="bg-yellow-600 py-2 px-4 w-full cursor-pointer rounded-md font-semibold">
                       Edit
                     </button>
-                    <button onClick={() => setIsConfirmingDelete(true)} className="bg-red-600 py-2 px-4 cursor-pointer rounded-md font-semibold">
+                    <button onClick={() => setIsConfirmingDelete(true)} className="bg-red-600 py-2 px-4 cursor-pointer w-full rounded-md font-semibold">
                       Delete
                     </button>
                   </>
