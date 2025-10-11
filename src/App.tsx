@@ -12,6 +12,7 @@ import { useIsMobile } from "./hook/useIsMobile";
 import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import AppDownload from "./pages/AppDownload";
+import AskAI from "./pages/AskAI";
 
 
 function AppRoutes() {
@@ -20,12 +21,13 @@ function AppRoutes() {
   const isResetPasswordPage = location.pathname === "/reset-password";
   const isVerifyEmailPage = location.pathname === "/verify-email";
   const isAppDownloadPage = location.pathname === "/app-download";
+  const isAskAIPage = location.pathname === "/ask-ai";
   const isMobile = useIsMobile();
 
   return (
     <>
       {!isAuthPage && !isResetPasswordPage && !isVerifyEmailPage && !isAppDownloadPage && <Navbar />}
-      <div className={!isAuthPage && !isMobile && !isResetPasswordPage && !isVerifyEmailPage && !isAppDownloadPage ? "pt-16" : ""}>
+      <div className={!isAuthPage && !isMobile && !isResetPasswordPage && !isVerifyEmailPage && !isAppDownloadPage && !isAskAIPage ? "pt-16" : ""}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
@@ -34,6 +36,7 @@ function AppRoutes() {
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/ask-ai" element={<AskAI />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/app-download" element={<AppDownload />} />
         </Routes>

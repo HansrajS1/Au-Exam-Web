@@ -17,7 +17,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex gap-6 items-center">
-          {["/", "/add-paper", "/about", "/profile"].map((path, i) => (
+          {["/", "/add-paper", "/ask-ai", "/about", "/profile"].map((path, i) => (
             <NavLink
               key={path}
               to={path}
@@ -25,7 +25,7 @@ export default function Navbar() {
                 isActive ? "text-green-400 font-semibold" : "hover:text-green-300"
               }
             >
-              {["Home", "Add Paper", "About", "Profile"][i]}
+              {["Home", "Add Paper", "Ask AI", "About", "Profile"][i]}
             </NavLink>
           ))}
         </div>

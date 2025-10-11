@@ -9,11 +9,12 @@ export default function BottomNav() {
     { path: "/", label: "Home", icon: icons.home },
     { path: "/add-paper", label: "Add Paper", icon: icons.add },
     { path: "/about", label: "About", icon: icons.about },
+    { path: "/ask-ai", label: "Ask AI", icon: icons.ai },
     { path: "/profile", label: "Profile", icon: icons.person },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#1a1a2e] md:hidden justify-between min-h-[50px] flex items-center rounded-full mx-4 mb-6 shadow-lg border border-[#2c2c3a]">
+    <nav className="fixed bottom-10 left-0 right-0 z-50 bg-[#1a1a2e] md:hidden justify-between min-h-[50px] flex items-center rounded-full mx-4 mb-6 shadow-lg border border-[#2c2c3a]">
       {navItems.map(({ path, label, icon }) => {
         const isActive = location.pathname === path;
 

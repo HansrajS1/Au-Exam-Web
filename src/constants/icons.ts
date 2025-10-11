@@ -6,11 +6,13 @@ import save from "../assets/icons/save.png";
 import search from "../assets/icons/search.png";
 import about from "../assets/icons/about.png";
 import add from "../assets/icons/add.png";
+import ai from "../assets/icons/ai.png";
 
 
 
 export const icons = {
   home,
+  ai,
   about,
   search,
   person,
