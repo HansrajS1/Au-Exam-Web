@@ -32,103 +32,100 @@ export default function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedPaper, setSelectedPaper] = useState<PaperDetail | null>(null);
   const [userNameState, setUserNameState] = useState<string | null>(userName);
-  const [fetcherror, setFetchError] = useState<string | null>(null);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const [page, setPage] = useState(1);
-  const loaderRef = useRef<HTMLDivElement | null>(null);
-  const paginatedPapers = papers.slice(0, page * PAGE_SIZE);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const loaderRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
-  const loadInitialPapers = useCallback(async () => {
+  const fetchPapers = useCallback(
+  async (currentPage: number, searchQuery: string) => {
     setLoading(true);
-    setPage(1);
+    setFetchError(null);
     try {
-      const cachedPapers = localStorage.getItem("allPapers");
-      if (cachedPapers) {
-        setPapers(JSON.parse(cachedPapers));
-      } else {
-        const response = await fetch("/api/papers");
-        const data = await response.json();
-        const sorted = [...data].sort((a, b) => b.id - a.id);
-        const finalPapers = sorted || [];
-        localStorage.setItem("allPapers", JSON.stringify(finalPapers));
-        setPapers(finalPapers);
+      let url = `/api/papers?page=${currentPage}&limit=${PAGE_SIZE}`;
+      if (searchQuery) {
+        url = `/api/papers/search?subject=${encodeURIComponent(
+          searchQuery
+        )}&page=${currentPage}&limit=${PAGE_SIZE}`;
       }
-    } catch {
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+
+      const data = await response.json();
+
+      const papersArray = Array.isArray(data.papers) ? data.papers : [];
+      const totalFromServer = parseInt(data.total, 10) || 0;
+
+      if (!data.papers) {
+        console.error("API Warning: The response object did not contain a 'papers' key.", data);
+      }
+      
+      setPapers((prevPapers) => {
+        const newPapers = currentPage === 1 ? papersArray : [...prevPapers, ...papersArray];
+        
+        const paperMap = new Map();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        newPapers.forEach((paper: { id: any; }) => paperMap.set(paper.id, paper));
+        const uniquePapers = Array.from(paperMap.values());
+        
+        setHasMore(uniquePapers.length < totalFromServer);
+        
+        return uniquePapers;
+      });
+
+    } catch (error) {
+      console.error("Failed to fetch papers:", error);
       setFetchError("Failed to load papers, please try again later.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  },
+  [] // Dependencies: userVerified can be added if needed, but the effect handles it.
+);
 
-  const fetchLatestPapers = async () => {
-    try {
-      const response = await fetch("/api/papers");
-      const data = await response.json();
-      const sorted = [...data].sort((a, b) => b.id - a.id);
-      const finalPapers = sorted || [];
-      localStorage.setItem("allPapers", JSON.stringify(finalPapers));
-      setPapers(finalPapers);
-    } catch {
-      console.error("Failed to check for updates.");
+  useEffect(() => {
+    if (!userVerified) return;
+
+    const handler = debounce(() => {
+      setPapers([]);
+      setPage(1);
+      setHasMore(true);
+      fetchPapers(1, query);
+    }, 500);
+
+    handler();
+    return () => handler.cancel();
+  }, [query, userVerified, fetchPapers]);
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchPapers(page, query);
     }
-  };
+  }, [page, fetchPapers, query]);
 
   useEffect(() => {
     setUserNameState(userName);
     const savedAvatar = localStorage.getItem("avatar");
     if (savedAvatar) setSelected(parseInt(savedAvatar, 10));
-    if (userVerified) {
-        loadInitialPapers();
-        const intervalId = setInterval(fetchLatestPapers, 90000);
-        return () => clearInterval(intervalId);
-    }
-  }, [userVerified, userName, loadInitialPapers]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const firstEntry = entries[0];
-        if (firstEntry.isIntersecting) {
-          if (paginatedPapers.length < papers.length) {
-            setPage((prevPage) => prevPage + 1);
-          }
-        }
-      },
-      { threshold: 1.0 }
-    );
-    const currentLoader = loaderRef.current;
-    if (currentLoader) observer.observe(currentLoader);
-    return () => {
-      if (currentLoader) observer.unobserve(currentLoader);
-    };
-  }, [papers, paginatedPapers.length]);
-
-  const searchPapers = async (text: string) => {
-    if (!userVerified) return;
-    if (!text.trim()) {
-      loadInitialPapers();
-      return;
-    }
-    setLoading(true);
-    setPage(1);
-    try {
-      const response = await fetch(`/api/papers/search?subject=${encodeURIComponent(text)}`);
-      const data = await response.json();
-      const sorted = [...data].sort((a, b) => b.id - a.id);
-      setPapers(sorted);
-    } catch {
-      setFetchError("Search failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const debouncedSearch = useCallback(debounce(searchPapers, 500), [userVerified, loadInitialPapers]);
-
-  useEffect(() => {
-    debouncedSearch(query);
-  }, [query, debouncedSearch]);
+  }, [userName]);
 
   const fetchPaperById = async (id: number) => {
     const loadingToast = toast.loading("Loading details...");
@@ -161,7 +158,6 @@ export default function Home(): JSX.Element {
     const originalPapers = [...papers];
     const updatedPapers = papers.filter((p) => p.id !== id);
     setPapers(updatedPapers);
-    localStorage.setItem("allPapers", JSON.stringify(updatedPapers));
     setSelectedPaper(null);
     setIsConfirmingDelete(false);
     toast.success("Paper deleted successfully!");
@@ -171,7 +167,6 @@ export default function Home(): JSX.Element {
     } catch (error) {
       console.error("Delete error:", error);
       setPapers(originalPapers);
-      localStorage.setItem("allPapers", JSON.stringify(originalPapers));
       toast.error("Failed to delete paper. Please try again.");
     }
   };
@@ -179,8 +174,12 @@ export default function Home(): JSX.Element {
   return (
     <div className="min-h-screen bg-[#030014] mx-auto w-full px-4 pt-10 text-white relative">
       <Toaster position="top-center" reverseOrder={false} />
+
       <div className="flex items-center mb-6">
-        <div className="flex items-center min-w-[90%] mx-auto cursor-pointer" onClick={() => router("/Profile")}>
+        <div
+          className="flex items-center min-w-[90%] mx-auto cursor-pointer"
+          onClick={() => router("/Profile")}
+        >
           <img
             src={selected === 1 ? images.AvatarBoy : images.AvatarGirl}
             alt="Avatar"
@@ -199,22 +198,27 @@ export default function Home(): JSX.Element {
         />
         <img src={icons.search} alt="Search" className="w-5 absolute h-5 right-0 mr-4" />
       </div>
+
       <div className="flex justify-center items-center h-6 mb-4">
-        {loading && papers.length === 0 ? (
+        {loading && papers.length === 0 && (
           <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-gray-400"></div>
-        ) : (
-          <div className="h-4 w-4"></div>
         )}
       </div>
-      {fetcherror && (
+      {fetchError && (
         <div className="text-center mb-4">
-          <p className="text-red-500">{fetcherror}</p>
+          <p className="text-red-500">{fetchError}</p>
         </div>
       )}
+
       <div className="flex flex-wrap align-center justify-center p-4 rounded-xl gap-4 mb-20">
-        {paginatedPapers.length > 0
-          ? paginatedPapers.map((paper) => (
-              <div key={paper.id} className="bg-[#1a1a2e] cursor-pointer flex flex-col mt-2 rounded-xl p-3 flex-wrap min-w-[30%]">
+        {papers.map((paper, index) => {
+          if (papers.length === index + 1) {
+            return (
+              <div
+                key={paper.id}
+                ref={loaderRef}
+                className="bg-[#1a1a2e] cursor-pointer flex flex-col mt-2 rounded-xl p-3 flex-wrap min-w-[30%]"
+              >
                 <button onClick={() => fetchPaperById(paper.id)} className="w-full">
                   <img
                     src={paper.previewImageUrl}
@@ -225,29 +229,67 @@ export default function Home(): JSX.Element {
                   <p className="text-sm font-bold text-center">{paper.subject}</p>
                 </button>
                 <div className="flex justify-center mt-2">
-                  <button onClick={() => downloadAndOpenDocument(paper.fileUrl)} className="bg-green-600 cursor-pointer py-1.5 rounded-md p-2 mt-2 font-semibold">
+                  <button
+                    onClick={() => downloadAndOpenDocument(paper.fileUrl)}
+                    className="bg-green-600 cursor-pointer py-1.5 rounded-md p-2 mt-2 font-semibold"
+                  >
                     Download Paper
                   </button>
                 </div>
               </div>
-            ))
-          : !loading && query && (
-              <p className="text-center col-span-2 mt-4">No papers found starting with “{query}”</p>
-            )}
+            );
+          }
+          return (
+            <div
+              key={paper.id}
+              className="bg-[#1a1a2e] cursor-pointer flex flex-col mt-2 rounded-xl p-3 flex-wrap min-w-[30%]"
+            >
+              <button onClick={() => fetchPaperById(paper.id)} className="w-full">
+                <img
+                  src={paper.previewImageUrl}
+                  alt={paper.subject}
+                  className="h-[55vh] w-full object-contain cursor-pointer rounded-lg mb-2"
+                  loading="lazy"
+                />
+                <p className="text-sm font-bold text-center">{paper.subject}</p>
+              </button>
+              <div className="flex justify-center mt-2">
+                <button
+                  onClick={() => downloadAndOpenDocument(paper.fileUrl)}
+                  className="bg-green-600 cursor-pointer py-1.5 rounded-md p-2 mt-2 font-semibold"
+                >
+                  Download Paper
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
-      {paginatedPapers.length < papers.length && !loading && (
-        <div ref={loaderRef} className="flex justify-center items-center h-20">
+
+      {loading && papers.length > 0 && (
+        <div className="flex justify-center items-center h-20">
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-gray-400"></div>
         </div>
       )}
+
+      {!loading && papers.length === 0 && query && (
+        <p className="text-center col-span-2 mt-4">
+          No papers found starting with “{query}”
+        </p>
+      )}
+
       {!userVerified && (
         <div className="text-center mt-4">
           <p className="text-red-500">Access denied. Please verify your account.</p>
-          <button onClick={() => router("/Profile")} className="bg-indigo-600 px-6 py-2 rounded mt-4 text-white">
+          <button
+            onClick={() => router("/Profile")}
+            className="bg-indigo-600 px-6 py-2 rounded mt-4 text-white"
+          >
             Verify Now
           </button>
         </div>
       )}
+
       {selectedPaper && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center px-6 z-50">
           <div className="bg-[#1a1a2e] p-4 rounded-lg w-full max-w-md">
@@ -261,32 +303,56 @@ export default function Home(): JSX.Element {
               <div className="flex justify-around mb-2 gap-3">
                 {isConfirmingDelete ? (
                   <>
-                    <button onClick={() => handleDelete(selectedPaper.id)} className="bg-red-700 py-2 w-full mx-1 cursor-pointer rounded-md font-semibold">
+                    <button
+                      onClick={() => handleDelete(selectedPaper.id)}
+                      className="bg-red-700 py-2 w-full mx-1 cursor-pointer rounded-md font-semibold"
+                    >
                       Confirm Delete
                     </button>
-                    <button onClick={() => setIsConfirmingDelete(false)} className="bg-gray-500 py-2 w-full mx-1 cursor-pointer rounded-md font-semibold">
+                    <button
+                      onClick={() => setIsConfirmingDelete(false)}
+                      className="bg-gray-500 py-2 w-full mx-1 cursor-pointer rounded-md font-semibold"
+                    >
                       Cancel
                     </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => { setSelectedPaper(null); router(`/edit-paper?paperId=${selectedPaper.id}`); }} className="bg-yellow-600 py-2 px-4 w-full cursor-pointer rounded-md font-semibold">
+                    <button
+                      onClick={() => {
+                        setSelectedPaper(null);
+                        router(`/edit-paper?paperId=${selectedPaper.id}`);
+                      }}
+                      className="bg-yellow-600 py-2 px-4 w-full cursor-pointer rounded-md font-semibold"
+                    >
                       Edit
                     </button>
-                    <button onClick={() => setIsConfirmingDelete(true)} className="bg-red-600 py-2 px-4 cursor-pointer w-full rounded-md font-semibold">
+                    <button
+                      onClick={() => setIsConfirmingDelete(true)}
+                      className="bg-red-600 py-2 px-4 cursor-pointer w-full rounded-md font-semibold"
+                    >
                       Delete
                     </button>
                   </>
                 )}
               </div>
             )}
-            <button onClick={() => { setSelectedPaper(null); setIsConfirmingDelete(false); }} className="bg-blue-600 py-2 w-full cursor-pointer rounded-md font-semibold">
+            <button
+              onClick={() => {
+                setSelectedPaper(null);
+                setIsConfirmingDelete(false);
+              }}
+              className="bg-blue-600 py-2 w-full cursor-pointer rounded-md font-semibold"
+            >
               Close
             </button>
           </div>
         </div>
       )}
-      <p className="text-center text-gray-400 mt-8 mb-0 text-sm">&copy; {new Date().getFullYear()} AU Exam Papers. All rights reserved.</p>
+
+      <p className="text-center text-gray-400 mt-8 mb-0 text-sm">
+        &copy; {new Date().getFullYear()} AU Exam Papers. All rights reserved.
+      </p>
     </div>
   );
 }

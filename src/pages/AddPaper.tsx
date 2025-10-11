@@ -51,20 +51,10 @@ export default function AddPaper() {
     formData.append("preview", previewImage);
 
     try {
-      const response = await axios.post(`/api/papers/upload`, formData, {
+      await axios.post(`/api/papers/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      
       showTemporaryMessage("Paper uploaded successfully!", true);
-      
-      const newPaper = response.data;
-      const cachedData = localStorage.getItem("allPapers");
-      if (cachedData) {
-        const papers = JSON.parse(cachedData);
-        papers.unshift(newPaper);
-        localStorage.setItem("allPapers", JSON.stringify(papers));
-      }
-      
       setCollege("Alliance University");
       setCourse("");
       setSemester("");

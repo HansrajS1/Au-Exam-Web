@@ -41,7 +41,9 @@ export default function EditPaper() {
     setIsSuccess(success);
     setTimeout(() => {
       setSubmitMsg("");
-      router("/");
+      if (success) {
+        router("/");
+      }
     }, 800);
   };
   
@@ -75,15 +77,9 @@ export default function EditPaper() {
       });
       
       const updatedPaper = response.data as any;
-      const cachedData = localStorage.getItem("allPapers");
-      if (cachedData) {
-        const papers = JSON.parse(cachedData);
-        const indexToUpdate = papers.findIndex((p: any) => p.id === updatedPaper.id);
-        if (indexToUpdate !== -1) papers[indexToUpdate] = updatedPaper;
-        localStorage.setItem("allPapers", JSON.stringify(papers));
-      }
       setInitialPaper(updatedPaper);
       setPaper(updatedPaper);
+
       setFile(null);
       setPreviewImage(null);
       (document.getElementById('file-input') as HTMLInputElement).value = "";
