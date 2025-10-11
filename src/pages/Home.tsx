@@ -98,7 +98,7 @@ export default function Home(): JSX.Element {
       setLoading(false);
     }
   },
-  [] // Dependencies: userVerified can be added if needed, but the effect handles it.
+  []
 );
 
   useEffect(() => {

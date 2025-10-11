@@ -29,8 +29,7 @@ export default function AddPaper() {
     setIsSuccess(success);
     setTimeout(() => {
       setSubmitMsg("");
-      router("/");      
-    }, 800);
+    }, 2000);
   };
 
   const handleSubmit = async () => {
