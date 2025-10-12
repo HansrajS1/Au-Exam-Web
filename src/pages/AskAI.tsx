@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, type JSX } from "react";
 import { Send, Bot, User, CornerDownLeft } from "lucide-react";
 import clsx from "clsx";
+import { useAuth } from "../lib/authcontext";
+import { useNavigate } from "react-router-dom";
 
 type Message = {
   role: "user" | "assistant";
@@ -38,6 +40,9 @@ const ChatMessage = ({ role, content }: Message): JSX.Element => {
 };
 
 export default function AskAI(): JSX.Element {
+  const { userVerified } = useAuth();
+  const router = useNavigate();
+
   const [messages, setMessages] = useState<Message[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     return saved ? (JSON.parse(saved) as Message[]) : [];
@@ -137,9 +142,34 @@ export default function AskAI(): JSX.Element {
     content,
   });
 
+  useEffect(() => {
+    if (!userVerified) {
+      console.log("Please verify your email to access this section.");
+    }
+  }, [userVerified, router]);
+
+  if (!userVerified) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#030014] text-white p-4">
+        <div className="max-w-md text-center">
+          <h2 className="text-2xl font-bold mb-4">Email Verification Required</h2>
+          <p className="mb-4">
+            Please verify your email to access the Ask AI feature.
+          </p>
+          <button
+            onClick={() => router("/profile")}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded"
+          >
+            Go to Profile
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#0f172a] text-white overflow-hidden pb-40">
-      <header className="flex-shrink-0 border-b border-gray-700 bg-[#1e293b] z-10">
+    <div className="min-h-screen bg-[#030014] text-white overflow-hidden flex flex-col text-white overflow-hidden pb-13">
+      <header className="flex-shrink-0 border-b border-gray-700 bg-[#030014] z-10">
         <div className="mx-auto flex h-16 max-w-3xl items-center justify-center px-4 sm:px-6">
           <h1 className="text-xl font-bold">Ask AI</h1>
         </div>
@@ -147,11 +177,11 @@ export default function AskAI(): JSX.Element {
 
       <main
         className={clsx(
-          "flex-1 overflow-y-auto scroll-smooth overscroll-contain",
+          "flex-1 overflow-y-auto scroll-smooth  overscroll-contain",
           messages.length === 0 && "flex flex-col items-center justify-center"
         )}
       >
-        <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 space-y-6">
+        <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6  space-y-6">
           {messages.length === 0 && !loading ? (
             <div className="text-center text-gray-400 mt-30">
               <Bot size={48} className="mx-auto mb-4" />
@@ -197,7 +227,7 @@ export default function AskAI(): JSX.Element {
               <div className="flex-shrink-0 bg-indigo-600 p-2 rounded-full">
                 <Bot className="h-5 w-5 text-white" />
               </div>
-              <div className="max-w-[80%] whitespace-pre-wrap rounded-xl bg-[#1e293b] px-4 py-3 text-gray-400">
+              <div className="max-w-[80%] whitespace-pre-wrap rounded-xl px-4 py-3 text-gray-400">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 bg-gray-500 rounded-full animate-pulse delay-75"></span>
                   <span className="h-2 w-2 bg-gray-500 rounded-full animate-pulse delay-150"></span>
@@ -210,7 +240,7 @@ export default function AskAI(): JSX.Element {
         </div>
       </main>
 
-      <footer className="sticky bottom-0 z-10">
+      <footer className="sticky bg-[#030014] bottom-0 z-10">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -218,7 +248,7 @@ export default function AskAI(): JSX.Element {
           }}
           className="mx-auto flex max-w-3xl items-end content-center gap-2 p-2 sm:p-4"
         >
-          <div className="relative flex align-center content-center w-full gap-2">
+          <div className="relative flex align-center content-center  w-full gap-2">
             <button
               onClick={resetChat}
               className="rounded-md bg-indigo-600 rounded-full h-15 p-2 mt-2.5  text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
