@@ -43,6 +43,13 @@ export default function AskAI(): JSX.Element {
   const { userVerified } = useAuth();
   const router = useNavigate();
 
+    useEffect(() => {
+    if (!userVerified) {
+      console.log("Please verify your email to access this section.");
+    }
+  }, [userVerified, router]);
+
+
   const [messages, setMessages] = useState<Message[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     return saved ? (JSON.parse(saved) as Message[]) : [];
@@ -59,6 +66,7 @@ export default function AskAI(): JSX.Element {
   useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
+
 
   const sendMessage = async (): Promise<void> => {
     const trimmed = input.trim();
@@ -141,12 +149,6 @@ export default function AskAI(): JSX.Element {
     role: "assistant",
     content,
   });
-
-  useEffect(() => {
-    if (!userVerified) {
-      console.log("Please verify your email to access this section.");
-    }
-  }, [userVerified, router]);
 
   if (!userVerified) {
     return (

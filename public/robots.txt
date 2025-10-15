@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://auexamweb.netlify.app/sitemap.xml
+Sitemap: https://auexamweb.netlify.app/sitemap1.xml
+Sitemap: https://auexamapp.tech/sitemap.xml
