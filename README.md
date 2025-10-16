@@ -37,6 +37,11 @@ App will be available at:
 npm run build
 npm run preview
 ```
+or
+```bash
+docker pull hansrajvvs/au-exam-web:latest
+docker run -d --name au-exam-web -p 8080:80 hansrajvvs/au-exam-web:latest
+```
 
 ---
 
