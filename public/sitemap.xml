@@ -43,9 +43,14 @@
     <lastmod>2025-10-07</lastmod>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://auexamapp.tech/ask-ai</loc>
+    <lastmod>2025-10-29</lastmod>
+    <priority>0.8</priority>
+  </url>
 
   <url>
-    <loc>https://auexamapp.tech</loc>
+    <loc>https://auexamapp.tech/Au-Exam-App-video.mp4</loc>
     <video:video>
       <video:thumbnail_loc>https://auexamapp.tech/thumbnail.jpg</video:thumbnail_loc>
       <video:title>AU Exam App Overview</video:title>
