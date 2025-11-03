@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
 
-const baseUrl = process.env.VITE_BASE_URL_FRONTEND || "localhost:5173";
+const baseUrl = process.env.VITE_BASE_URL || "localhost:5173";
+const BASEURL_FRONTEND = process.env.VITE_BASE_URL_FRONTEND || "localhost:5173";
+
 
 if (!baseUrl) {
   console.error("Error: VITE_BASE_URL is not set!");
@@ -9,7 +11,7 @@ if (!baseUrl) {
 }
 
 const redirectsContent = `
-https://auexamweb.netlify.app/*   ${baseUrl}/:splat   301!
+https://auexamweb.netlify.app/*   ${BASEURL_FRONTEND}/:splat   301!
 
 /api/*   ${baseUrl}/api/:splat   200
 
