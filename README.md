@@ -59,18 +59,9 @@ VITE_BASE_URL=your_backend_api
 
 ## Troubleshooting
 
-- **Appwrite auth not working**  
-  → Make sure `.env` variables are correctly prefixed with `VITE_`  
-
 - **API requests blocked (CORS issue)**  
   → Enable CORS in Spring Boot backend config  
 
-- **Netlify build error**  
-  → Add this in Netlify build settings:  
-  ```
-  Build Command: npm run build
-  Publish Directory: dist
-  ```
 
 ---
 
