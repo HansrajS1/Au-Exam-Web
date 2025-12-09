@@ -2,7 +2,7 @@
 <h3>A full-stack web application for uploading and managing academic papers, built for Alliance University Students. Users can submit academic papers, preview uploads, and manage content by subject, topic, and branch.</h3>
 New Ask AI Features for get instant answer for AI on any topic.
 
-## 🌐 Live : [AU Exam Web](https://auexamapp.tech/)  
+## Live : [AU Exam Web](https://auexamapp.tech/)  
 Backend Link : [Spring Boot](https://github.com/HansrajS1/Au-Exam-App-backend) OR [Express JS](https://github.com/HansrajS1/Au-Exam-backend)
 
 App Link : [AU Exam App](https://github.com/HansrajS1/Au-Exam-App)
