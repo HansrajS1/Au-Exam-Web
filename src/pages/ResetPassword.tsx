@@ -4,9 +4,6 @@ import { account } from "../lib/appwrite";
 import { icons } from "../constants/icons";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<"verifying" | "success" | "error">("verifying");

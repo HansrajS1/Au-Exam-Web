@@ -1,4 +1,5 @@
 import { icons } from "../constants/icons";
+import { images } from "../constants/images";
 import { useNavigate } from "react-router-dom";
 
 export default function AppDownload() {
@@ -26,6 +27,7 @@ export default function AppDownload() {
       </header>
 
       <main className="max-w-[700px] mx-auto my-8 p-8 bg-black rounded-xl shadow-md text-center">
+
         <div className="rounded-xl overflow-hidden shadow-md mt-4">
           <video
             autoPlay
@@ -38,12 +40,29 @@ export default function AppDownload() {
             <source src="/Au-Exam-App-video.mp4" type="video/mp4" />
           </video>
         </div>
+        <div className="flex mt-8 justify-center">
+          <div className="bg-[#1a1a2e] p-6 rounded-xl shadow-lg w-fit text-center">
+            <h3 className="text-lg font-semibold mb-3 text-white">
+              Download Android App
+            </h3>
+            <img
+              src={images.QR}
+              alt="QR Code"
+              className="h-48 w-48 bg-amber-50 mx-auto rounded-lg"
+            />
+            <p className="text-gray-400 text-xs mt-3">
+              Scan with your phone camera
+            </p>
+          </div>
+        </div>
 
         <p className="text-white text-justify text-[1.1rem] leading-relaxed my-8">
           The official mobile app for Alliance University students to upload
           academic papers, preview submissions, and contribute to the academic
           repository. Available for Android and iOS.
         </p>
+
+
 
         <div className="flex justify-center flex-wrap gap-4 mb-8">
           <a

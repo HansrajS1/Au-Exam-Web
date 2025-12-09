@@ -5,8 +5,6 @@ import { icons } from "../constants/icons";
 import { account } from "../lib/appwrite";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
-
-
 export default function Auth() {
   const [isSignIn, setIsSignIn] = useState(false);
   const [email, setEmail] = useState("");

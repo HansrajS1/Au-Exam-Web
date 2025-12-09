@@ -1,4 +1,5 @@
 import { icons } from "../constants/icons";
+import { images } from "../constants/images";
 import { useNavigate } from "react-router-dom";
 
 export default function About() {
@@ -144,6 +145,19 @@ export default function About() {
           >
             Android Download is Live!
           </button>
+          <div className="flex justify-center">
+            <div className="bg-[#1a1a2e] p-6 rounded-xl shadow-lg w-fit text-center">
+              <img
+                src={images.QR}
+                alt="QR Code"
+                className="h-48 w-48 bg-amber-50 mx-auto rounded-lg"
+              />
+              <p className="text-gray-400 text-xs mt-3">
+                Scan with your phone camera
+              </p>
+            </div>
+          </div>
+
 
           <p className="text-gray-300 text-lg mb-4">
             Questions or feedback? Reach out at{" "}
@@ -151,7 +165,7 @@ export default function About() {
               href="mailto:auexamapp@gmail.com"
               className="text-blue-400"
             >
-              auexamapp@gmail.com 
+              auexamapp@gmail.com
             </a>
           </p>
           <div className="text-sm text-gray-500 space-y-1 ">
