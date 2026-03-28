@@ -53,53 +53,53 @@ export default function Home(): JSX.Element {
   );
 
   const fetchPapers = useCallback(
-  async (currentPage: number, searchQuery: string) => {
-    setLoading(true);
-    setFetchError(null);
-    try {
-      let url = `/api/papers?page=${currentPage}&limit=${PAGE_SIZE}`;
-      if (searchQuery) {
-        url = `/api/papers/search?subject=${encodeURIComponent(
-          searchQuery
-        )}&page=${currentPage}&limit=${PAGE_SIZE}`;
+    async (currentPage: number, searchQuery: string) => {
+      setLoading(true);
+      setFetchError(null);
+      try {
+        let url = `/api/papers?page=${currentPage}&limit=${PAGE_SIZE}`;
+        if (searchQuery) {
+          url = `/api/papers/search?subject=${encodeURIComponent(
+            searchQuery
+          )}&page=${currentPage}&limit=${PAGE_SIZE}`;
+        }
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok.");
+        }
+
+        const data = await response.json();
+
+        const papersArray = Array.isArray(data.papers) ? data.papers : [];
+        const totalFromServer = parseInt(data.total, 10) || 0;
+
+        if (!data.papers) {
+          console.error("API Warning: The response object did not contain a 'papers' key.", data);
+        }
+
+        setPapers((prevPapers) => {
+          const newPapers = currentPage === 1 ? papersArray : [...prevPapers, ...papersArray];
+
+          const paperMap = new Map();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          newPapers.forEach((paper: { id: any; }) => paperMap.set(paper.id, paper));
+          const uniquePapers = Array.from(paperMap.values());
+
+          setHasMore(uniquePapers.length < totalFromServer);
+
+          return uniquePapers;
+        });
+
+      } catch (error) {
+        console.error("Failed to fetch papers:", error);
+        setFetchError("Failed to load papers, please try again later.");
+      } finally {
+        setLoading(false);
       }
-      const response = await fetch(url);
-      
-      if (!response.ok) {
-        throw new Error("Network response was not ok.");
-      }
-
-      const data = await response.json();
-
-      const papersArray = Array.isArray(data.papers) ? data.papers : [];
-      const totalFromServer = parseInt(data.total, 10) || 0;
-
-      if (!data.papers) {
-        console.error("API Warning: The response object did not contain a 'papers' key.", data);
-      }
-      
-      setPapers((prevPapers) => {
-        const newPapers = currentPage === 1 ? papersArray : [...prevPapers, ...papersArray];
-        
-        const paperMap = new Map();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        newPapers.forEach((paper: { id: any; }) => paperMap.set(paper.id, paper));
-        const uniquePapers = Array.from(paperMap.values());
-        
-        setHasMore(uniquePapers.length < totalFromServer);
-        
-        return uniquePapers;
-      });
-
-    } catch (error) {
-      console.error("Failed to fetch papers:", error);
-      setFetchError("Failed to load papers, please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  },
-  []
-);
+    },
+    []
+  );
 
   useEffect(() => {
     if (!userVerified) return;
@@ -293,6 +293,11 @@ export default function Home(): JSX.Element {
       {selectedPaper && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center px-6 z-50">
           <div className="bg-[#1a1a2e] p-4 rounded-lg w-full max-w-md">
+            <img
+              src={selectedPaper.previewImageUrl}
+              alt={selectedPaper.subject}
+              className="w-full h-[200px] object-contain rounded-md mb-3"
+            />
             <h2 className="text-lg font-bold mb-2">{selectedPaper.subject}</h2>
             <p className="text-gray-300 mb-1">College: {selectedPaper.college}</p>
             <p className="text-gray-300 mb-1">Course: {selectedPaper.course}</p>
