@@ -292,11 +292,11 @@ export default function Home(): JSX.Element {
 
       {selectedPaper && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center px-6 z-50">
-          <div className="bg-[#1a1a2e] p-4 rounded-lg w-full max-w-md">
+          <div className="bg-[#1a1a2e] p-6 rounded-xl w-full max-w-2xl">
             <img
               src={selectedPaper.previewImageUrl}
               alt={selectedPaper.subject}
-              className="w-full h-[200px] object-contain rounded-md mb-3"
+              className="w-full max-h-[60vh] object-contain rounded-lg mb-4"
             />
             <h2 className="text-lg font-bold mb-2">{selectedPaper.subject}</h2>
             <p className="text-gray-300 mb-1">College: {selectedPaper.college}</p>
@@ -355,7 +355,7 @@ export default function Home(): JSX.Element {
         </div>
       )}
 
-      <p className="text-center text-gray-400 mt-8 mb-0 text-sm">
+      <p className="text-gray-400 relative bottom-2 text-center w-full text-sm">
         &copy; {new Date().getFullYear()} AU Exam Papers. All rights reserved.
       </p>
     </div>
