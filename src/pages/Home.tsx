@@ -283,7 +283,7 @@ export default function Home(): JSX.Element {
           <p className="text-red-500">Access denied. Please verify your account.</p>
           <button
             onClick={() => router("/Profile")}
-            className="bg-indigo-600 px-6 py-2 rounded mt-4 text-white"
+            className="bg-indigo-600 px-6 py-2 rounded m-4 text-white"
           >
             Verify Now
           </button>

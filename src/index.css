@@ -1,2 +1,25 @@
 @import "tailwindcss";
 @import 'tailwind-scrollbar-hide/v4';
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030014;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0f0D23 ;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0f0D23;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0f0D23 #030014;
+}
