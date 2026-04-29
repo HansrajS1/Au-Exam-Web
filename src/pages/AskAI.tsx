@@ -170,7 +170,7 @@ export default function AskAI(): JSX.Element {
   }
 
   return (
-    <div className="min-h-screen bg-[#030014] text-white overflow-hidden flex flex-col text-white overflow-hidden pb-13">
+    <div className=" bg-[#030014] text-white flex flex-col text-white ">
       <header className="flex-shrink-0 border-b border-gray-700 bg-[#030014] z-10">
         <div className="mx-auto flex h-16 max-w-3xl items-center justify-center px-4 sm:px-6">
           <h1 className="text-xl font-bold">Ask AI</h1>
@@ -179,7 +179,7 @@ export default function AskAI(): JSX.Element {
 
       <main
         className={clsx(
-          "flex-1 overflow-y-auto scroll-smooth  overscroll-contain",
+          "flex-1 overflow-y-auto",
           messages.length === 0 && "flex flex-col items-center justify-center"
         )}
       >
@@ -242,7 +242,7 @@ export default function AskAI(): JSX.Element {
         </div>
       </main>
 
-      <footer className="sticky bg-[#030014] bottom-0 z-10">
+      <footer className="sticky bg-[#030014] bottom-0 z-10 pb-15 sm:pb-0">
         <form
           onSubmit={(e) => {
             e.preventDefault();

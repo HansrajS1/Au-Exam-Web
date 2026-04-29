@@ -248,7 +248,7 @@ export default function Home(): JSX.Element {
                 <img
                   src={paper.previewImageUrl}
                   alt={paper.subject}
-                  className="h-[55vh] w-full object-contain cursor-pointer rounded-lg mb-2"
+                  className="h-[50vh] w-full object-contain cursor-pointer rounded-lg mb-2"
                   loading="lazy"
                 />
                 <p className="text-sm font-bold text-center">{paper.subject}</p>
