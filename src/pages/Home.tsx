@@ -296,7 +296,7 @@ export default function Home(): JSX.Element {
             <img
               src={selectedPaper.previewImageUrl}
               alt={selectedPaper.subject}
-              className="w-full max-h-[60vh] object-contain rounded-lg mb-4"
+              className="w-full max-h-[50vh] object-contain rounded-lg mb-4"
             />
             <h2 className="text-lg font-bold mb-2">{selectedPaper.subject}</h2>
             <p className="text-gray-300 mb-1">College: {selectedPaper.college}</p>
