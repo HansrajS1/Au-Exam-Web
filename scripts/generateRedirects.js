@@ -1,23 +1,6 @@
 import fs from "fs";
 import path from "path";
 
-const baseUrl = process.env.VITE_BASE_URL;
-const BASEURL_FRONTEND = process.env.VITE_BASE_URL_FRONTEND;
-
-if (!baseUrl) {
-  console.error("Error: VITE_BASE_URL is not set!");
-  process.exit(1);
-}
-
-if (!BASEURL_FRONTEND) {
-  console.error("Error: VITE_BASE_URL_FRONTEND is not set!");
-  process.exit(1);
-}
-
-const redirectsContent = `
-/api/*   ${baseUrl}/api/:splat   200
-`.trim();
-
 const distPath = path.resolve(process.cwd(), "dist");
 
 if (!fs.existsSync(distPath)) {
@@ -26,6 +9,6 @@ if (!fs.existsSync(distPath)) {
 
 const redirectsPath = path.join(distPath, "_redirects");
 
-fs.writeFileSync(redirectsPath, redirectsContent);
+fs.writeFileSync(redirectsPath, "");
 
 console.log(`_redirects generated successfully at ${redirectsPath}`);
