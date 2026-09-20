@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type JSX } from "react";
-import { Send, Bot, User, CornerDownLeft } from "lucide-react";
+import { Send, CornerDownLeft } from "lucide-react";
 import clsx from "clsx";
 import { useAuth } from "../lib/authcontext";
 import { useNavigate } from "react-router-dom";
@@ -11,28 +11,39 @@ type Message = {
 
 const STORAGE_KEY = "chat_messages";
 
+const fontImport = (
+  <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+    .ap-serif { font-family: 'Source Serif 4', Georgia, serif; }
+    .ap-sans { font-family: 'Inter', system-ui, sans-serif; }
+    .ap-field:focus { outline: none; border-color: #B08D57; box-shadow: 0 0 0 3px rgba(176,141,87,0.18); }
+    .ap-scrollbar::-webkit-scrollbar { width: 6px; }
+    .ap-scrollbar::-webkit-scrollbar-thumb { background: #2A3552; border-radius: 3px; }
+  `}</style>
+);
+
 const ChatMessage = ({ role, content }: Message): JSX.Element => {
   const isUser = role === "user";
   return (
-    <div
-      className={clsx("flex w-full items-start gap-3", isUser && "justify-end")}
-    >
+    <div className={clsx("flex w-full items-start gap-3", isUser && "justify-end")}>
       {!isUser && (
-        <div className="flex-shrink-0 bg-indigo-600 p-2 rounded-full">
-          <Bot className="h-5 w-5 text-white" />
+        <div className="flex-shrink-0 h-8 w-8 rounded-full border border-[#B08D57] flex items-center justify-center">
+          <span className="ap-serif text-[#B08D57] text-xs">AI</span>
         </div>
       )}
       <div
         className={clsx(
-          "max-w-[80%] whitespace-pre-wrap rounded-xl px-4 py-3",
-          isUser ? "bg-indigo-600 text-white" : "bg-[#1e293b] text-gray-300"
+          "ap-sans max-w-[80%] whitespace-pre-wrap rounded-sm px-4 py-3 text-[15px] leading-relaxed",
+          isUser
+            ? "bg-[#F6F1E7] text-[#171A21] border border-[#DCD1B8]"
+            : "bg-[#141B2E] text-[#D7DAE3] border border-[#232B44]"
         )}
       >
         {content}
       </div>
       {isUser && (
-        <div className="flex-shrink-0 bg-gray-600 p-2 rounded-full">
-          <User className="h-5 w-5 text-white" />
+        <div className="flex-shrink-0 h-8 w-8 rounded-full bg-[#F6F1E7] flex items-center justify-center">
+          <span className="ap-serif text-[#171A21] text-xs">You</span>
         </div>
       )}
     </div>
@@ -43,12 +54,11 @@ export default function AskAI(): JSX.Element {
   const { userVerified } = useAuth();
   const router = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
     if (!userVerified) {
       console.log("Please verify your email to access this section.");
     }
   }, [userVerified, router]);
-
 
   const [messages, setMessages] = useState<Message[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -66,7 +76,6 @@ export default function AskAI(): JSX.Element {
   useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
-
 
   const sendMessage = async (): Promise<void> => {
     const trimmed = input.trim();
@@ -92,7 +101,7 @@ export default function AskAI(): JSX.Element {
             errorText = "Unauthorized: Check your API key or login.";
             break;
           case 403:
-            errorText = "Forbidden: You don’t have access to this model.";
+            errorText = "Forbidden: You don't have access to this model.";
             break;
           case 429:
             errorText = "Rate limit exceeded. Please wait and try again.";
@@ -107,10 +116,7 @@ export default function AskAI(): JSX.Element {
             errorText = `Unexpected error (${response.status})`;
         }
 
-        const updated = [
-          ...newMessages,
-          createAssistantMessage(`Error: ${errorText}`),
-        ];
+        const updated = [...newMessages, createAssistantMessage(`Error: ${errorText}`)];
         setMessages(updated);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
         return;
@@ -122,12 +128,8 @@ export default function AskAI(): JSX.Element {
       setMessages(updated);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Network error occurred.";
-      const updated = [
-        ...newMessages,
-        createAssistantMessage(`Error: ${errorMessage}`),
-      ];
+      const errorMessage = err instanceof Error ? err.message : "Network error occurred.";
+      const updated = [...newMessages, createAssistantMessage(`Error: ${errorMessage}`)];
       setMessages(updated);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     } finally {
@@ -152,17 +154,18 @@ export default function AskAI(): JSX.Element {
 
   if (!userVerified) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#030014] text-white p-4">
-        <div className="max-w-md text-center">
-          <h2 className="text-2xl font-bold mb-4">Email Verification Required</h2>
-          <p className="mb-4">
-            Please verify your email to access the Ask AI feature.
+      <div className="ap-sans min-h-screen flex items-center justify-center bg-[#0B1220] p-4">
+        {fontImport}
+        <div className="w-full max-w-md bg-[#F6F1E7] border-l-4 border-[#B08D57] rounded-sm shadow-[0_20px_50px_-15px_rgba(0,0,0,0.6)] p-8 text-center">
+          <p className="ap-serif text-[#171A21] text-2xl mb-2">Verify your email</p>
+          <p className="text-[#6B6455] text-sm leading-relaxed mb-6">
+            Ask AI is available once your email has been verified.
           </p>
           <button
             onClick={() => router("/profile")}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded"
+            className="bg-[#0B1220] hover:bg-[#1C2740] transition-colors text-[#F6F1E7] text-sm font-medium px-6 py-2.5 rounded-sm"
           >
-            Go to Profile
+            Go to profile
           </button>
         </div>
       </div>
@@ -170,51 +173,45 @@ export default function AskAI(): JSX.Element {
   }
 
   return (
-    <div className=" bg-[#030014] h-screen  text-white flex flex-col text-white ">
-      <header className="flex-shrink-0 border-b border-gray-700 z-10">
+    <div className="ap-sans bg-[#0B1220] bg-[radial-gradient(circle_at_80%_0%,#141B2E,transparent_50%)] h-screen text-[#D7DAE3] flex flex-col">
+      {fontImport}
+
+      <header className="flex-shrink-0 border-b border-[#232B44]">
         <div className="mx-auto flex h-16 max-w-3xl items-center justify-center px-4 sm:px-6">
-          <h1 className="text-xl font-bold">Ask AI</h1>
+          <h1 className="ap-serif text-[#F6F1E7] text-xl">Ask AI</h1>
         </div>
       </header>
 
       <main
         className={clsx(
-          "flex-1 overflow-y-auto",
+          "flex-1 overflow-y-auto ap-scrollbar",
           messages.length === 0 && "flex flex-col items-center justify-center"
         )}
       >
-        <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6  space-y-6">
+        <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 space-y-6">
           {messages.length === 0 && !loading ? (
-            <div className="text-center text-gray-400 mt-30">
-              <Bot size={48} className="mx-auto mb-4" />
-              <h2 className="text-2xl font-semibold mb-2">Welcome to Ask AI</h2>
-              <p className="mb-4">Start a conversation by typing below.</p>
+            <div className="text-center mt-10">
+              <div className="mx-auto mb-5 h-12 w-12 rounded-full border border-[#B08D57] flex items-center justify-center">
+                <span className="ap-serif text-[#B08D57] text-sm">AI</span>
+              </div>
+              <h2 className="ap-serif text-[#F6F1E7] text-2xl mb-2">Ask anything from your syllabus</h2>
+              <p className="text-[#8A90A6] text-sm mb-6">Start a conversation by typing below.</p>
               <div className="flex flex-wrap justify-center gap-2 text-sm">
                 <button
-                  onClick={() =>
-                    setInput(
-                      "Summarize the key concepts of Machine Learning in CSE syllabus"
-                    )
-                  }
-                  className="bg-gray-700 p-2 rounded-lg hover:bg-gray-600"
+                  onClick={() => setInput("Summarize the key concepts of Machine Learning in CSE syllabus")}
+                  className="border border-[#2A3552] text-[#D7DAE3] px-3 py-2 rounded-sm hover:border-[#B08D57] hover:text-[#B08D57] transition-colors"
                 >
-                  ML Concepts Summary
+                  ML concepts summary
                 </button>
                 <button
-                  onClick={() =>
-                    setInput(
-                      "Explain backpropagation algorithm in simple terms"
-                    )
-                  }
-                  className="bg-gray-700 p-2 rounded-lg hover:bg-gray-600"
+                  onClick={() => setInput("Explain backpropagation algorithm in simple terms")}
+                  className="border border-[#2A3552] text-[#D7DAE3] px-3 py-2 rounded-sm hover:border-[#B08D57] hover:text-[#B08D57] transition-colors"
                 >
-                  Backpropagation Explained
+                  Backpropagation explained
                 </button>
                 <button
-                  onClick={() =>
-                    setInput("How do I make an HTTP request in Javascript?")
-                  }
-                  className="bg-gray-700 p-2 rounded-lg hover:bg-gray-600"
+                  onClick={() => setInput("How do I make an HTTP request in Javascript?")}
+                  className="border border-[#2A3552] text-[#D7DAE3] px-3 py-2 rounded-sm hover:border-[#B08D57] hover:text-[#B08D57] transition-colors"
                 >
                   HTTP request in JS
                 </button>
@@ -226,14 +223,14 @@ export default function AskAI(): JSX.Element {
 
           {loading && (
             <div className="flex w-full items-start gap-3">
-              <div className="flex-shrink-0 bg-indigo-600 p-2 rounded-full">
-                <Bot className="h-5 w-5 text-white" />
+              <div className="flex-shrink-0 h-8 w-8 rounded-full border border-[#B08D57] flex items-center justify-center">
+                <span className="ap-serif text-[#B08D57] text-xs">AI</span>
               </div>
-              <div className="max-w-[80%] whitespace-pre-wrap rounded-xl px-4 py-3 text-gray-400">
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 bg-gray-500 rounded-full animate-pulse delay-75"></span>
-                  <span className="h-2 w-2 bg-gray-500 rounded-full animate-pulse delay-150"></span>
-                  <span className="h-2 w-2 bg-gray-500 rounded-full animate-pulse delay-300"></span>
+              <div className="rounded-sm border border-[#232B44] bg-[#141B2E] px-4 py-3">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 bg-[#B08D57] rounded-full animate-pulse [animation-delay:0ms]"></span>
+                  <span className="h-1.5 w-1.5 bg-[#B08D57] rounded-full animate-pulse [animation-delay:150ms]"></span>
+                  <span className="h-1.5 w-1.5 bg-[#B08D57] rounded-full animate-pulse [animation-delay:300ms]"></span>
                 </div>
               </div>
             </div>
@@ -242,21 +239,23 @@ export default function AskAI(): JSX.Element {
         </div>
       </main>
 
-      <footer className="sticky bottom-0 z-10 pb-15 sm:pb-0">
+      <footer className="flex-shrink-0 border-t border-[#232B44] bg-[#0B1220] pb-4 mb-10 sm:pb-4 sm:mb-0 " >
         <form
           onSubmit={(e) => {
             e.preventDefault();
             sendMessage();
           }}
-          className="mx-auto flex max-w-3xl items-end content-center gap-2 p-2 sm:p-4"
+          className="mx-auto flex max-w-3xl items-end gap-2 p-3 sm:p-4"
         >
-          <div className="relative flex align-center content-center  w-full gap-2">
-            <button
-              onClick={resetChat}
-              className="rounded-md bg-indigo-600 rounded-full h-15 p-2 mt-2.5  text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              New Chat
-            </button>
+          <button
+            type="button"
+            onClick={resetChat}
+            className="flex-shrink-0 h-11 px-4 rounded-sm border border-[#2A3552] text-[#D7DAE3] text-sm font-medium hover:border-[#B08D57] hover:text-[#B08D57] transition-colors"
+          >
+            New chat
+          </button>
+
+          <div className="relative flex-1 flex flex-col">
             <textarea
               rows={1}
               value={input}
@@ -267,22 +266,21 @@ export default function AskAI(): JSX.Element {
                   sendMessage();
                 }
               }}
-              placeholder="Type your question..."
-              className="w-full resize-none rounded-lg border h-20 border-gray-600 bg-[#0f172a] p-3 pr-20 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 scrollbar-hide"
-              style={{ maxHeight: "200px" }}
+              placeholder="Type your question…"
+              className="ap-field w-full resize-none rounded-sm border border-[#2A3552] bg-[#141B2E] p-3 pr-10 text-[15px] text-[#F0F1F5] placeholder:text-[#5B6172] transition-shadow"
+              style={{ height: "48px", maxHeight: "200px" }}
             />
-            <div className="absolute bottom-2.5 right-2 text-xs text-gray-500 scrollbar-hide hidden sm:block">
-              Shift + <CornerDownLeft size={12} className="inline-block" /> for
-              new line
+            <div className="absolute bottom-2 right-3 text-xs text-[#5B6172] hidden sm:flex items-center gap-1">
+              Shift + <CornerDownLeft size={12} />
             </div>
           </div>
 
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="flex h-12 w-12 flex-shrink-0 mb-3.5 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-900 disabled:opacity-70"
+            className="flex-shrink-0 flex h-11 w-11 items-center justify-center rounded-sm bg-[#B08D57] hover:bg-[#96754A] text-[#0B1220] disabled:cursor-not-allowed disabled:bg-[#2A3552] disabled:text-[#5B6172] transition-colors"
           >
-            <Send className="h-6 w-6 " />
+            <Send className="h-5 w-5" />
           </button>
         </form>
       </footer>

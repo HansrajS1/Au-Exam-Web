@@ -249,7 +249,7 @@ export default function Home(): JSX.Element {
         </div>
       )}
 
-      <div className="flex flex-wrap align-center justify-center p-4 rounded-xl gap-4 mb-60">
+      <div className="flex flex-wrap align-center justify-center p-4 rounded-xl gap-4 ">
         {loading && papers.length === 0 && (
           <>
             {Array.from({ length: 6 }).map((_, index) => (
@@ -337,17 +337,27 @@ export default function Home(): JSX.Element {
       )}
 
       {!userVerified && (
-        <div className="text-center mt-4">
-          <p className="text-red-500">Access denied. Please verify your account.</p>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="text-5xl mb-4">
+            🔒
+          </div>
+
+          <h2 className="text-xl font-semibold text-gray-200 mb-2">
+            Verification Required
+          </h2>
+
+          <p className="text-gray-400 mb-6 max-w-md">
+            Please verify your account to access the exam papers.
+          </p>
+
           <button
             onClick={() => router("/Profile")}
-            className="bg-indigo-600 px-6 py-2 rounded m-4 text-white"
+            className="bg-indigo-600 hover:bg-indigo-700 transition px-6 py-2.5 rounded-lg text-white font-semibold"
           >
-            Verify Now
+            Verify Account
           </button>
         </div>
       )}
-
       {selectedPaper && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center px-6 z-50">
           <div className="bg-[#1a1a2e] p-6 rounded-xl w-full max-w-2xl">
@@ -413,7 +423,7 @@ export default function Home(): JSX.Element {
         </div>
       )}
 
-      <p className="text-gray-400 relative bottom-2 text-center w-full text-sm">
+      <p className="text-gray-400 relative bottom-2 pt-55 text-center w-full text-sm">
         &copy; {new Date().getFullYear()} AU Exam Papers. All rights reserved.
       </p>
     </div>
