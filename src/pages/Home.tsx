@@ -23,6 +23,20 @@ interface PaperDetail extends Paper {
 
 const PAGE_SIZE = 10;
 
+function PaperSkeleton() {
+  return (
+    <div className="bg-[#1a1a2e] flex flex-col mt-2 rounded-xl p-3 min-w-[30%]">
+
+      <div className="h-[50vh] w-full skeleton-shimmer rounded-lg mb-2"></div>
+
+      <div className="h-4 w-3/4 mx-auto rounded skeleton-shimmer mb-3"></div>
+
+      <div className="h-10 w-40 mx-auto rounded-md skeleton-shimmer"></div>
+
+    </div>
+  );
+}
+
 export default function Home(): JSX.Element {
   const { userName, userVerified, userEmail } = useAuth();
   const router = useNavigate();
@@ -205,12 +219,44 @@ export default function Home(): JSX.Element {
         )}
       </div>
       {fetchError && (
-        <div className="text-center mb-4">
-          <p className="text-red-500">{fetchError}</p>
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+
+          <div className="text-5xl mb-4">
+            ⚠️
+          </div>
+
+          <h2 className="text-xl font-semibold text-red-400 mb-2">
+            Failed to Load Papers
+          </h2>
+
+          <p className="text-gray-400 mb-5">
+            Something went wrong while loading the papers.
+          </p>
+
+          <button
+            onClick={() => {
+              setFetchError(null);
+              setPapers([]);
+              setPage(1);
+              setHasMore(true);
+              fetchPapers(1, query);
+            }}
+            className="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-lg font-semibold"
+          >
+            Try Again
+          </button>
+
         </div>
       )}
 
-      <div className="flex flex-wrap align-center justify-center p-4 rounded-xl gap-4 mb-20">
+      <div className="flex flex-wrap align-center justify-center p-4 rounded-xl gap-4 mb-60">
+        {loading && papers.length === 0 && (
+          <>
+            {Array.from({ length: 6 }).map((_, index) => (
+              <PaperSkeleton key={index} />
+            ))}
+          </>
+        )}
         {papers.map((paper, index) => {
           if (papers.length === index + 1) {
             return (
@@ -272,10 +318,22 @@ export default function Home(): JSX.Element {
         </div>
       )}
 
-      {!loading && papers.length === 0 && query && (
-        <p className="text-center col-span-2 mt-4">
-          No papers found starting with “{query}”
-        </p>
+      {!loading && papers.length === 0 && query && !fetchError && (
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+
+          <div className="text-5xl mb-4">
+            🔍
+          </div>
+
+          <h2 className="text-xl font-semibold text-gray-300 mb-2">
+            No Papers Found
+          </h2>
+
+          <p className="text-gray-400">
+            No papers found for "<span className="text-white">{query}</span>"
+          </p>
+
+        </div>
       )}
 
       {!userVerified && (
