@@ -21,6 +21,11 @@ interface PaperDetail extends Paper {
   userEmail: string;
 }
 
+type AvatarChoice = "1" | "2" | "custom" | null;
+
+const AVATAR_KEY = "avatar";
+const AVATAR_IMAGE_KEY = "avatarImage";
+
 const PAGE_SIZE = 10;
 
 function PaperSkeleton() {
@@ -40,7 +45,8 @@ function PaperSkeleton() {
 export default function Home(): JSX.Element {
   const { userName, userVerified, userEmail } = useAuth();
   const router = useNavigate();
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<AvatarChoice>(null);
+  const [customAvatarSrc, setCustomAvatarSrc] = useState<string | null>(null);
   const [query, setQuery] = useState<string>("");
   const [papers, setPapers] = useState<Paper[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -137,9 +143,22 @@ export default function Home(): JSX.Element {
 
   useEffect(() => {
     setUserNameState(userName);
-    const savedAvatar = localStorage.getItem("avatar");
-    if (savedAvatar) setSelected(parseInt(savedAvatar, 10));
+
+    const savedAvatar = localStorage.getItem(AVATAR_KEY);
+    if (savedAvatar === "1" || savedAvatar === "2") {
+      setSelected(savedAvatar);
+      setCustomAvatarSrc(null);
+    } else if (savedAvatar === "custom") {
+      const savedImage = localStorage.getItem(AVATAR_IMAGE_KEY);
+      if (savedImage) {
+        setSelected("custom");
+        setCustomAvatarSrc(savedImage);
+      }
+    }
   }, [userName]);
+
+  const avatarSrc =
+    selected === "custom" ? customAvatarSrc : selected === "1" ? images.AvatarBoy : images.AvatarGirl;
 
   const fetchPaperById = async (id: number) => {
     const loadingToast = toast.loading("Loading details...");
@@ -195,9 +214,9 @@ export default function Home(): JSX.Element {
           onClick={() => router("/Profile")}
         >
           <img
-            src={selected === 1 ? images.AvatarBoy : images.AvatarGirl}
+            src={avatarSrc ?? images.AvatarGirl}
             alt="Avatar"
-            className="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full object-cover"
           />
           <span className="ml-2 text-base">{userNameState || "Student"}</span>
         </div>
