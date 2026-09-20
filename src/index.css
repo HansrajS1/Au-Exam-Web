@@ -45,3 +45,10 @@
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
 }
+
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+    .ap-serif { font-family: 'Source Serif 4', Georgia, serif; }
+    .ap-sans { font-family: 'Inter', system-ui, sans-serif; }
+    .ap-field:focus { outline: none; border-color: #B08D57; box-shadow: 0 0 0 3px rgba(176,141,87,0.18); }
+    .ap-scrollbar::-webkit-scrollbar { width: 6px; }
+    .ap-scrollbar::-webkit-scrollbar-thumb { background: #2A3552; border-radius: 3px; }

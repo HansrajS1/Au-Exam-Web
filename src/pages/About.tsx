@@ -55,7 +55,11 @@ export default function About() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-16">
         {/* Hero */}
         <div className="text-center mb-14">
-          <img src={icons.logo} alt="Logo" className="h-16 w-16 mx-auto mb-6 opacity-90" />
+          <img
+            src={icons.logo}
+            alt="Logo"
+            className="h-30 w-30 mx-auto mb-6 animate-pulse"
+          />
           <h1 className="ap-serif text-[#F6F1E7] text-[34px] sm:text-[40px] leading-tight mb-3">
             About AU Exam Web
           </h1>

@@ -3,13 +3,18 @@ import { Send, CornerDownLeft } from "lucide-react";
 import clsx from "clsx";
 import { useAuth } from "../lib/authcontext";
 import { useNavigate } from "react-router-dom";
+import { images } from "../constants/images";
 
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
 
+type AvatarChoice = "1" | "2" | "custom" | null;
+
 const STORAGE_KEY = "chat_messages";
+const AVATAR_KEY = "avatar";
+const AVATAR_IMAGE_KEY = "avatarImage";
 
 const fontImport = (
   <style>{`
@@ -22,10 +27,14 @@ const fontImport = (
   `}</style>
 );
 
-const ChatMessage = ({ role, content }: Message): JSX.Element => {
+const ChatMessage = ({
+  role,
+  content,
+  avatarSrc,
+}: Message & { avatarSrc: string | null }): JSX.Element => {
   const isUser = role === "user";
   return (
-    <div className={clsx("flex w-full items-start gap-3", isUser && "justify-end")}>
+    <div className={clsx("flex w-full items-center gap-3", isUser && "justify-end")}>
       {!isUser && (
         <div className="flex-shrink-0 h-8 w-8 rounded-full border border-[#B08D57] flex items-center justify-center">
           <span className="ap-serif text-[#B08D57] text-xs">AI</span>
@@ -41,11 +50,18 @@ const ChatMessage = ({ role, content }: Message): JSX.Element => {
       >
         {content}
       </div>
-      {isUser && (
-        <div className="flex-shrink-0 h-8 w-8 rounded-full bg-[#F6F1E7] flex items-center justify-center">
-          <span className="ap-serif text-[#171A21] text-xs">You</span>
-        </div>
-      )}
+      {isUser &&
+        (avatarSrc ? (
+          <img
+            src={avatarSrc}
+            alt="You"
+            className="flex-shrink-0 h-8 w-8 rounded-full object-cover border border-[#DCD1B8]"
+          />
+        ) : (
+          <div className="flex-shrink-0 h-8 w-8 rounded-full bg-[#F6F1E7] flex items-center justify-center">
+            <span className="ap-serif text-[#171A21] text-xs">You</span>
+          </div>
+        ))}
     </div>
   );
 };
@@ -54,11 +70,36 @@ export default function AskAI(): JSX.Element {
   const { userVerified } = useAuth();
   const router = useNavigate();
 
+  const [avatarChoice, setAvatarChoice] = useState<AvatarChoice>(null);
+  const [customAvatarSrc, setCustomAvatarSrc] = useState<string | null>(null);
+
   useEffect(() => {
     if (!userVerified) {
       console.log("Please verify your email to access this section.");
     }
   }, [userVerified, router]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(AVATAR_KEY) as AvatarChoice;
+    if (saved === "1" || saved === "2") {
+      setAvatarChoice(saved);
+    } else if (saved === "custom") {
+      const savedImage = localStorage.getItem(AVATAR_IMAGE_KEY);
+      if (savedImage) {
+        setAvatarChoice("custom");
+        setCustomAvatarSrc(savedImage);
+      }
+    }
+  }, []);
+
+  const avatarSrc: string | null =
+    avatarChoice === "custom"
+      ? customAvatarSrc
+      : avatarChoice === "1"
+      ? images.AvatarBoy
+      : avatarChoice === "2"
+      ? images.AvatarGirl
+      : null;
 
   const [messages, setMessages] = useState<Message[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -218,11 +259,11 @@ export default function AskAI(): JSX.Element {
               </div>
             </div>
           ) : (
-            messages.map((msg, idx) => <ChatMessage key={idx} {...msg} />)
+            messages.map((msg, idx) => <ChatMessage key={idx} {...msg} avatarSrc={avatarSrc} />)
           )}
 
           {loading && (
-            <div className="flex w-full items-start gap-3">
+            <div className="flex w-full items-center gap-3">
               <div className="flex-shrink-0 h-8 w-8 rounded-full border border-[#B08D57] flex items-center justify-center">
                 <span className="ap-serif text-[#B08D57] text-xs">AI</span>
               </div>
@@ -239,7 +280,7 @@ export default function AskAI(): JSX.Element {
         </div>
       </main>
 
-      <footer className="flex-shrink-0 border-t border-[#232B44] bg-[#0B1220] pb-4 mb-10 sm:pb-4 sm:mb-0 " >
+      <footer className="flex-shrink-0 border-t border-[#232B44] bg-[#0B1220] pb-4 mb-10 sm:pb-4 min-[760px]:mb-0">
         <form
           onSubmit={(e) => {
             e.preventDefault();
